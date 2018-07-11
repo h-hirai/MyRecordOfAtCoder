@@ -2,9 +2,23 @@ AtCoder参加記録
 
 [プロフィールページ](https://beta.atcoder.jp/users/hhirai)
 
-# SoundHound Inc. Programming Contest 2018
+## AtCoder Beginner Contest 102
 
-## C. Ordinary Beauty
+### C. Linear Approximation
+
+適当な定数bを選ぶことで、与えられた数列に対する、与えられた関数の値を最小化する問題。
+
+平均値を求めればいいのかと思っていたら、中央値だった。なんでそうなのかはまだピンときてない。
+
+### D. Equal Cut
+
+与えられた数列を、それぞれの総和がなるべく近くなるよう4つの部分列に分割する問題。
+
+真ん中の分割がすんでいるものと仮定して、数列の全部分について、左2つの部分列の総和が一番近くなる左の分割点を、尺取り虫でさがす。右についても同様にする。というやり方で解けるらしい。まだ書いてない。
+
+## SoundHound Inc. Programming Contest 2018
+
+### C. Ordinary Beauty
 
 各要素が1以上n以下の整数である長さmの数列を考える。全通りの数列の点数を求め、それらの平均(期待値?)を出力する問題。
 
