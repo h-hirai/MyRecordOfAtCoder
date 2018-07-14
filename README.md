@@ -6,8 +6,6 @@ AtCoder参加記録
 
 ### C. Strange Bank
 
-[問題ページ](https://beta.atcoder.jp/contests/abc099/tasks/abc099_c)
-
 両替問題。黙って DP で解けとちょくだい先生がついっとしてたのでそのようにした。
 
 ### D. Good Grid
