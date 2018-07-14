@@ -2,6 +2,20 @@ AtCoder参加記録
 
 [プロフィールページ](https://beta.atcoder.jp/users/hhirai)
 
+## AtCoder Beginner Contest 099
+
+### C. Strange Bank
+
+[問題ページ](https://beta.atcoder.jp/contests/abc099/tasks/abc099_c)
+
+両替問題。黙って DP で解けとちょくだい先生がついっとしてたのでそのようにした。
+
+### D. Good Grid
+
+与えられた格子模様を、条件を満たすように描き替えるコストを求める問題。
+
+条件を満たす模様は結局3色の縞模様となるので、初期状態を3グループに分け、各グループを同色に塗りつぶすコストを全通り試す。このグループ分けのところで各色の数を集計しておかないと計算量が間に合わなくなるらしい。
+
 ## AtCoder Beginner Contest 100
 
 ### B. Ringo's Favorite Numbers
