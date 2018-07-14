@@ -2,6 +2,21 @@ AtCoder参加記録
 
 [プロフィールページ](https://beta.atcoder.jp/users/hhirai)
 
+## AtCoder Beginner Contest 101
+
+### C. Minimization
+
+与えられた数列に、決められた操作をほどこし目的の数列に変換する。このときの最小の回数を求める問題。
+
+ここで操作一回で最小化できる項の数は`K-1`、最小化する項の数は、最初から最小の1を除き`N-1`、よって`ceil((N-1)/(K-1))が答え。
+
+### D. Snuke Numbers
+
+条件によって定められる数列を列挙する問題。
+
+ある程度の法則性が見受けられるものの、完全な法則を見つけることはできないので、「ある程度の法則性」で候補を絞ったあとで、条件でさらに絞り込むという解き方をする。
+
+
 ## AtCoder Beginner Contest 102
 
 ### C. Linear Approximation
