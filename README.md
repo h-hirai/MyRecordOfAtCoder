@@ -2,6 +2,12 @@ AtCoder参加記録
 
 [プロフィールページ](https://beta.atcoder.jp/users/hhirai)
 
+## AtCoder Grand Contest 025
+
+### RGB Coloring
+
+色の点数が与えられたとき、N個のブロックをRGBいずれかに塗って、合計がちょうどK点となる組み合わせはいくつあるか。競プロではよくあるらしい、巨大な数になる解答を998244353の剰余で答えさせる問題。
+
 ## AtCoder Beginner Contest 099
 
 ### C. Strange Bank
