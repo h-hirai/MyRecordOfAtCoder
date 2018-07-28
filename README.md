@@ -2,6 +2,14 @@ AtCoder参加記録
 
 [プロフィールページ](https://beta.atcoder.jp/users/hhirai)
 
+## AtCoder Grand Contest 023
+
+### A. Zero-Sum Ranges
+
+与えられた数列について、空でない連続する部分列であって、その総和が0になるものの個数を求める。
+
+累積和で求める。累積和を計算していって、ある値になったあとでふたたび同じ値になったとすると、その間の総和は0である。累積和を求めた後、それをソートして、同じ値がいくつあるか数えればよい。
+
 ## AtCoder Beginner Contest 096
 
 ### C. Grid Repainting 2
