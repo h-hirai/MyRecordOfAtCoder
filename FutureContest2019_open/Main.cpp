@@ -12,58 +12,25 @@ static constexpr size_t M = 30000;
 
 using ull = unsigned long long;
 
-struct Work {
-  size_t const tag;
-  Work() : tag(3) {}
+struct Command {
+  size_t tag;
+  size_t num;
 };
 
-struct Training {
-  size_t const tag;
-  size_t const skill_num;
-  Training(size_t skill_num) : tag(1), skill_num(skill_num) {}
-};
-
-struct GetOrder {
-  size_t const tag;
-  size_t const order_num;
-  GetOrder(size_t order_num) : tag(2), order_num(order_num) {}
-};
-
-std::ostream& operator<<(std::ostream& os, Work const& w) {
-  os << w.tag;
-  return os;
+bool operator!=(Command const& lhs, Command const& rhs) {
+  if (lhs.tag != rhs.tag) return true;
+  if (lhs.tag != 3) return false;
+  return lhs.num != rhs.num;
 }
-
-std::ostream& operator<<(std::ostream& os, Training const& t) {
-  os << t.tag << ' ' << (t.skill_num+1);
-  return os;
-}
-
-std::ostream& operator<<(std::ostream& os, GetOrder const& g) {
-  os << g.tag << ' ' << (g.order_num+1);
-  return os;
-}
-
-union Command {
-  Work w;
-  Training t;
-  GetOrder g;
-
-  Command(Work&& w) : w(w) {};
-  Command(Training&& t) : t(t) {};
-  Command(GetOrder&& g) : g(g) {};
-};
 
 std::ostream& operator<<(std::ostream& os, Command const& cmd) {
-  switch (cmd.w.tag) {
+  switch (cmd.tag) {
   case 3:
-    os << cmd.w;
+    os << cmd.tag;
     break;
   case 1:
-    os << cmd.t;
-    break;
   case 2:
-    os << cmd.g;
+    os << cmd.tag << ' ' << (cmd.num+1);
     break;
   }
   return os;
@@ -135,11 +102,11 @@ struct GameStatus {
 
   bool is_effectable_command(std::vector<Order> const & orders,
                              Command const& command) {
-    if (command.w.tag == 3) {
+    if (command.tag == 3) {
       return true;
     }
-    if (command.t.tag == 1) {
-      size_t skill = command.t.skill_num;
+    if (command.tag == 1) {
+      size_t skill = command.num;
       size_t next_level = skill_set[skill] + 1;
       if (next_level > 10) return false;
 
@@ -148,8 +115,8 @@ struct GameStatus {
 
       return true;
     }
-    if (command.g.tag == 2) {
-      size_t order_num = command.g.order_num;
+    if (command.tag == 2) {
+      size_t order_num = command.num;
       if (orders_finished[order_num]) return false;
 
       Order const& order = orders[order_num];
@@ -164,12 +131,12 @@ struct GameStatus {
   void update(std::vector<Order> const & orders,
               Command const& command) {
     turn++;
-    if (command.w.tag == 3) {
+    if (command.tag == 3) {
       money += 1000;
       return;
     }
-    if (command.t.tag == 1) {
-      size_t skill = command.t.skill_num;
+    if (command.tag == 1) {
+      size_t skill = command.num;
       size_t next_level = skill_set[skill] + 1;
       ull cost = 10000*(1<<next_level);
 
@@ -182,8 +149,8 @@ struct GameStatus {
 
       return;
     }
-    if (command.g.tag == 2) {
-      size_t order_num = command.g.order_num;
+    if (command.tag == 2) {
+      size_t order_num = command.num;
       Order const& order = orders[order_num];
 
       orders_finished[order_num] = true;
@@ -223,17 +190,28 @@ Command random_command(std::default_random_engine& engine) {
   switch (dist_c(engine)) {
   case 1: {
     std::uniform_int_distribution<size_t> dist_t(0, N-1);
-    return Command(Training(dist_t(engine)));
+    return Command{1, dist_t(engine)};
   }
   case 2: {
     std::uniform_int_distribution<size_t> dist_g(0, M-1);
-    return Command(GetOrder(dist_g(engine)));
+    return Command{2, dist_g(engine)};
   }
   case 3:
-    return Command(Work());
+    return Command{3, 0};
   }
 
   assert(false);
+}
+
+ull simulate(std::vector<Order> const& orders,
+             std::vector<Command> const& cmd_seq) {
+  GameStatus stat;
+  for (auto cmd : cmd_seq) {
+    if (stat.is_effectable_command(orders, cmd)) {
+      stat.update(orders, cmd);
+    }
+  }
+  return stat.money;
 }
 
 int main() {
@@ -255,19 +233,33 @@ int main() {
     orders.push_back(Order(a, b, c, std::move(s)));
   }
 
+  std::vector<Command> command_seq(T, Command{3, 0});
+  ull max_score = simulate(orders, command_seq);
+
   std::random_device seed_gen;
   std::default_random_engine engine(seed_gen());
 
-  GameStatus stat;
-  std::cerr << stat << std::endl;
+  std::uniform_int_distribution<size_t> dist(0, T-1);
 
-  while (stat.turn < T) {
+  for (size_t i=0; i<90000; i++) {
+    auto idx = dist(engine);
     auto cmd = random_command(engine);
-    if (stat.is_effectable_command(orders, cmd)) {
-      std::cout << cmd << std::endl;
-      stat.update(orders, cmd);
-      std::cerr << stat << std::endl;
+
+    if (command_seq[idx] != cmd) {
+      std::swap(command_seq[idx], cmd);
+
+      auto score = simulate(orders, command_seq);
+
+      if (score > max_score) {
+        max_score = score;
+      } else {
+        std::swap(command_seq[idx], cmd);
+      }
     }
+  }
+
+  for (auto cmd : command_seq) {
+    std::cout << cmd << std::endl;
   }
 
   return 0;
