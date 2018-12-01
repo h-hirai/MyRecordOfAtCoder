@@ -133,8 +133,36 @@ struct GameStatus {
     return static_cast<ull>(AddMoney);
   }
 
+  bool is_effectable_command(std::vector<Order> const & orders,
+                             Command const& command) {
+    if (command.w.tag == 3) {
+      return true;
+    }
+    if (command.t.tag == 1) {
+      size_t skill = command.t.skill_num;
+      size_t next_level = skill_set[skill] + 1;
+      if (next_level > 10) return false;
+
+      ull cost = 10000*(1<<next_level);
+      if (cost > money) return false;
+
+      return true;
+    }
+    if (command.g.tag == 2) {
+      size_t order_num = command.g.order_num;
+      if (orders_finished[order_num]) return false;
+
+      Order const& order = orders[order_num];
+      if (turn < order.start_turn) return false;
+      if (turn > order.end_turn) return false;
+
+      return true;
+    }
+    assert(false);
+  }
+
   void update(std::vector<Order> const & orders,
-              Command command) {
+              Command const& command) {
     turn++;
     if (command.w.tag == 3) {
       money += 1000;
@@ -143,10 +171,7 @@ struct GameStatus {
     if (command.t.tag == 1) {
       size_t skill = command.t.skill_num;
       size_t next_level = skill_set[skill] + 1;
-      if (next_level > 10) return;
-
       ull cost = 10000*(1<<next_level);
-      if (cost > money) return;
 
       money -= cost;
       experience[skill]++;
@@ -159,11 +184,7 @@ struct GameStatus {
     }
     if (command.g.tag == 2) {
       size_t order_num = command.g.order_num;
-      if (orders_finished[order_num]) return;
-
       Order const& order = orders[order_num];
-      if (turn < order.start_turn) return;
-      if (turn > order.end_turn) return;
 
       orders_finished[order_num] = true;
       money += calc_pay(order);
@@ -240,11 +261,13 @@ int main() {
   GameStatus stat;
   std::cerr << stat << std::endl;
 
-  for (size_t i=0; i<T; i++) {
+  while (stat.turn < T) {
     auto cmd = random_command(engine);
-    std::cerr << cmd << std::endl;
-    stat.update(orders, cmd);
-    std::cerr << stat << std::endl;
+    if (stat.is_effectable_command(orders, cmd)) {
+      std::cout << cmd << std::endl;
+      stat.update(orders, cmd);
+      std::cerr << stat << std::endl;
+    }
   }
 
   return 0;
