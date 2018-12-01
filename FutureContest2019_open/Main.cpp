@@ -1,8 +1,10 @@
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <algorithm>
 #include <cmath>
 #include <cassert>
+#include <random>
 
 static constexpr size_t T = 1000;
 static constexpr size_t N = 10;
@@ -27,11 +29,45 @@ struct GetOrder {
   GetOrder(size_t order_num) : tag(2), order_num(order_num) {}
 };
 
+std::ostream& operator<<(std::ostream& os, Work const& w) {
+  os << w.tag;
+  return os;
+}
+
+std::ostream& operator<<(std::ostream& os, Training const& t) {
+  os << t.tag << ' ' << (t.skill_num+1);
+  return os;
+}
+
+std::ostream& operator<<(std::ostream& os, GetOrder const& g) {
+  os << g.tag << ' ' << (g.order_num+1);
+  return os;
+}
+
 union Command {
   Work w;
   Training t;
   GetOrder g;
+
+  Command(Work&& w) : w(w) {};
+  Command(Training&& t) : t(t) {};
+  Command(GetOrder&& g) : g(g) {};
 };
+
+std::ostream& operator<<(std::ostream& os, Command const& cmd) {
+  switch (cmd.w.tag) {
+  case 3:
+    os << cmd.w;
+    break;
+  case 1:
+    os << cmd.t;
+    break;
+  case 2:
+    os << cmd.g;
+    break;
+  }
+  return os;
+}
 
 struct Order {
   size_t const start_turn;
@@ -49,6 +85,19 @@ struct Order {
     , requirement(requirement) {}
 };
 
+std::ostream& operator<<(std::ostream& os, Order const& order) {
+  os << order.start_turn
+     << ' ' << order.end_turn
+     << ' ' << order.pay;
+
+  for (auto r : order.requirement)
+    std::cout << ' ' << r;
+
+  os << std::endl;
+
+  return os;
+}
+
 struct GameStatus {
   size_t turn;
   ull money;
@@ -63,13 +112,17 @@ struct GameStatus {
     , experience(N, 0)
     , orders_finished(M, false) {}
 
-  size_t calc_pay(Order const& order) {
+  ull calc_pay(Order const& order) {
     double AddMoney = order.pay;
     AddMoney *= (1 + 9 * static_cast<double>(turn - order.start_turn) /
                  (order.end_turn - order.start_turn));
     int SkillLack = 0;
-    for (int j = 0; j < N; j++)
-      SkillLack += std::max(0ul, order.requirement[j] - skill_set[j]);
+    for (int j = 0; j < N; j++) {
+      int lack =
+        static_cast<int>(order.requirement[j]) -
+        static_cast<int>(skill_set[j]);
+      SkillLack += std::max(0, lack);
+    }
 
     if (SkillLack == 0) {
       AddMoney *= 10;
@@ -77,17 +130,17 @@ struct GameStatus {
       AddMoney *= std::pow(0.5, SkillLack);
       AddMoney += 1e-9;
     }
-    money += static_cast<ull>(AddMoney);
+    return static_cast<ull>(AddMoney);
   }
 
   void update(std::vector<Order> const & orders,
               Command command) {
     turn++;
-    if (command.w.tag == '3') {
+    if (command.w.tag == 3) {
       money += 1000;
       return;
     }
-    if (command.t.tag == '1') {
+    if (command.t.tag == 1) {
       size_t skill = command.t.skill_num;
       size_t next_level = skill_set[skill] + 1;
       if (next_level > 10) return;
@@ -104,7 +157,7 @@ struct GameStatus {
 
       return;
     }
-    if (command.g.tag == '2') {
+    if (command.g.tag == 2) {
       size_t order_num = command.g.order_num;
       if (orders_finished[order_num]) return;
 
@@ -112,6 +165,7 @@ struct GameStatus {
       if (turn < order.start_turn) return;
       if (turn > order.end_turn) return;
 
+      orders_finished[order_num] = true;
       money += calc_pay(order);
 
       return;
@@ -119,6 +173,47 @@ struct GameStatus {
     assert(false);
   }
 };
+
+std::ostream& operator<<(std::ostream& os, GameStatus const& stat) {
+  std::ios::fmtflags flagsSaved = os.flags();
+
+  os << "T:" << std::setw(5) << stat.turn
+     << " M:" << std::setw(10) << stat.money << std::endl;
+
+  os << "S:";
+  for (size_t i=0; i<N; i++) {
+    os << std::setw(3) << stat.skill_set[i];
+  }
+  os << std::endl;
+
+  os << "E:";
+  for (size_t i=0; i<N; i++) {
+    os << std::setw(3) << stat.experience[i];
+  }
+  os << std::endl;
+
+  os.flags(flagsSaved);
+
+  return os;
+}
+
+Command random_command(std::default_random_engine& engine) {
+  std::uniform_int_distribution<size_t> dist_c(1, 3);
+  switch (dist_c(engine)) {
+  case 1: {
+    std::uniform_int_distribution<size_t> dist_t(0, N-1);
+    return Command(Training(dist_t(engine)));
+  }
+  case 2: {
+    std::uniform_int_distribution<size_t> dist_g(0, M-1);
+    return Command(GetOrder(dist_g(engine)));
+  }
+  case 3:
+    return Command(Work());
+  }
+
+  assert(false);
+}
 
 int main() {
   size_t _t, _n, _m;
@@ -139,8 +234,17 @@ int main() {
     orders.push_back(Order(a, b, c, std::move(s)));
   }
 
+  std::random_device seed_gen;
+  std::default_random_engine engine(seed_gen());
+
+  GameStatus stat;
+  std::cerr << stat << std::endl;
+
   for (size_t i=0; i<T; i++) {
-    std::cout << 3 << std::endl;
+    auto cmd = random_command(engine);
+    std::cerr << cmd << std::endl;
+    stat.update(orders, cmd);
+    std::cerr << stat << std::endl;
   }
 
   return 0;
