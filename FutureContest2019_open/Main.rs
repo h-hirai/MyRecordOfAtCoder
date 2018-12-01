@@ -1,3 +1,31 @@
+static T : usize = 1000;
+static N : usize = 10;
+static M : usize = 30000;
+
+enum Command {
+    Work,
+    Training(usize),
+    GetOrder(usize),
+}
+
+struct GameStatus {
+    turn: usize,
+    money: usize,
+    skills: Vec<usize>,
+    orders: Vec<bool>,
+}
+
+impl GameStatus {
+    fn new() -> GameStatus {
+        GameStatus {
+            turn: 0,
+            money: 1000,
+            skills: vec![0; N],
+            orders: vec![false; M],
+        }
+    }
+}
+
 fn main() {
     let s = read_string();
     let mut sc = Scanner::new(&s);
@@ -6,27 +34,23 @@ fn main() {
     let _n : usize = sc.next();
     let _m : usize = sc.next();
 
-    let t : usize = 1000;
-    let n : usize = 10;
-    let m : usize = 30000;
+    let mut start_turn : Vec<usize> = Vec::with_capacity(M);
+    let mut end_turn : Vec<usize> = Vec::with_capacity(M);
+    let mut pay : Vec<usize> = Vec::with_capacity(M);
+    let mut requirement : Vec<Vec<usize>> = Vec::with_capacity(M);
 
-    let mut start_turn : Vec<usize> = Vec::with_capacity(m);
-    let mut end_turn : Vec<usize> = Vec::with_capacity(m);
-    let mut pay : Vec<usize> = Vec::with_capacity(m);
-    let mut requirement : Vec<Vec<usize>> = Vec::with_capacity(m);
-
-    for _i in 0..m {
+    for _i in 0..M {
         start_turn.push(sc.next());
         end_turn.push(sc.next());
         pay.push(sc.next());
-        let mut reqs = Vec::with_capacity(n);
-        for _j in 0..n {
+        let mut reqs = Vec::with_capacity(N);
+        for _j in 0..N {
             reqs.push(sc.next());
         }
         requirement.push(reqs);
     }
 
-    for _i in 0..t {
+    for _i in 0..T {
         println!("{}", 3);
     }
 }
