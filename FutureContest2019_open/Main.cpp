@@ -67,20 +67,31 @@ std::ostream& operator<<(std::ostream& os, Order const& order) {
 }
 
 struct GameStatus {
-  size_t turn;
-  ull money;
-  std::vector<size_t> skill_set;
-  std::vector<size_t> experience;
-  std::vector<bool> orders_finished;
+  size_t const turn;
+  ull const money;
+  std::vector<size_t> const skill_set;
+  std::vector<size_t> const experience;
+  std::vector<bool> const orders_finished;
 
   GameStatus()
-    : turn(0)
+    : turn(1)
     , money(1000)
     , skill_set(N, 0)
     , experience(N, 0)
     , orders_finished(M, false) {}
 
-  ull calc_pay(Order const& order) {
+  GameStatus(size_t const turn,
+             ull const money,
+             std::vector<size_t> const& skill_set,
+             std::vector<size_t> const& experience,
+             std::vector<bool> const& orders_finished)
+    : turn(turn)
+    , money(money)
+    , skill_set(skill_set)
+    , experience(experience)
+    , orders_finished(orders_finished) {}
+
+  ull calc_pay(Order const& order) const {
     double AddMoney = order.pay;
     AddMoney *= (1 + 9 * static_cast<double>(turn - order.start_turn) /
                  (order.end_turn - order.start_turn));
@@ -102,7 +113,7 @@ struct GameStatus {
   }
 
   bool is_effectable_command(std::vector<Order> const & orders,
-                             Command const& command) {
+                             Command const& command) const {
     if (command.tag == 3) {
       return true;
     }
@@ -129,35 +140,69 @@ struct GameStatus {
     assert(false);
   }
 
-  void update(std::vector<Order> const & orders,
-              Command const& command) {
-    turn++;
+  GameStatus update(std::vector<Order> const & orders,
+                    Command const& command) const {
     if (command.tag == 3) {
-      money += 1000;
-      return;
+      return
+        GameStatus{
+          turn+1,
+          money+1000,
+          skill_set,
+          experience,
+          orders_finished
+        };
     }
     if (command.tag == 1) {
       size_t skill = command.num;
       size_t next_level = skill_set[skill] + 1;
       ull cost = 10000*(1<<next_level);
 
-      money -= cost;
-      experience[skill]++;
-      if (experience[skill] < next_level) return;
-
-      experience[skill] = 0;
-      skill_set[skill] = next_level;
-
-      return;
+      std::vector<size_t> exp_new;
+      std::copy(experience.begin(), experience.end(),
+                std::back_inserter(exp_new));
+      if (experience[skill]+1 < next_level) {
+        exp_new[skill]++;
+        return
+          GameStatus{
+            turn+1,
+            money-cost,
+            skill_set,
+            exp_new,
+            orders_finished
+          };
+      } else {
+        exp_new[skill]=0;
+        std::vector<size_t> skill_new;
+        std::copy(skill_set.begin(), skill_set.end(),
+                  std::back_inserter(skill_new));
+        skill_new[skill] = next_level;
+        return
+          GameStatus{
+            turn+1,
+            money-cost,
+            skill_new,
+            exp_new,
+            orders_finished
+          };
+      }
     }
     if (command.tag == 2) {
       size_t order_num = command.num;
       Order const& order = orders[order_num];
 
-      orders_finished[order_num] = true;
-      money += calc_pay(order);
+      std::vector<bool> orders_new;
+      std::copy(orders_finished.begin(), orders_finished.end(),
+                std::back_inserter(orders_new));
+      orders_new[order_num] = true;
 
-      return;
+      return
+        GameStatus{
+          turn+1,
+          money + calc_pay(order),
+          skill_set,
+          experience,
+          orders_new
+        };
     }
     assert(false);
   }
@@ -204,15 +249,20 @@ Command random_command(std::default_random_engine& engine) {
   assert(false);
 }
 
-ull simulate(std::vector<Order> const& orders,
-             std::vector<Command> const& cmd_seq) {
-  GameStatus stat;
-  for (auto cmd : cmd_seq) {
-    if (stat.is_effectable_command(orders, cmd)) {
-      stat.update(orders, cmd);
-    }
+std::vector<GameStatus>
+simulate(std::vector<Order> const& orders,
+         std::vector<Command> const& cmd_seq,
+         std::vector<GameStatus> const& stats,
+         size_t idx) {
+  std::vector<GameStatus> ret;
+  ret.reserve(T);
+  std::copy(stats.begin(), std::next(stats.begin(), idx+1),
+            std::back_inserter(ret));
+  for (size_t i=idx; i<T; i++) {
+    auto cmd = cmd_seq[i];
+    ret.push_back(ret[i].update(orders, cmd));
   }
-  return stat.money;
+  return ret;
 }
 
 int main() {
@@ -237,7 +287,9 @@ int main() {
   }
 
   std::vector<Command> command_seq(T, Command{3, 0});
-  ull max_score = simulate(orders, command_seq);
+  std::vector<GameStatus> stat_seq =
+    simulate(orders, command_seq, std::vector<GameStatus>(1, GameStatus()), 0);
+  ull max_score = stat_seq[T-1].money;
 
   std::random_device seed_gen;
   std::default_random_engine engine(seed_gen());
@@ -250,13 +302,16 @@ int main() {
     auto idx = dist(engine);
     auto cmd = random_command(engine);
 
-    if (command_seq[idx] != cmd) {
+    if (command_seq[idx] != cmd &&
+        stat_seq[idx].is_effectable_command(orders, cmd)) {
       std::swap(command_seq[idx], cmd);
-
-      auto score = simulate(orders, command_seq);
+      auto new_stat_seq =
+        simulate(orders, command_seq, stat_seq, idx);
+      ull score = new_stat_seq[T-1].money;
 
       if (score > max_score) {
         max_score = score;
+        std::swap(stat_seq, new_stat_seq);
       } else {
         std::swap(command_seq[idx], cmd);
       }
