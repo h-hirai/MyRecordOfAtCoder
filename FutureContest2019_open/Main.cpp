@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cassert>
 #include <random>
+#include <chrono>
 
 static constexpr size_t T = 1000;
 static constexpr size_t N = 10;
@@ -215,6 +216,8 @@ ull simulate(std::vector<Order> const& orders,
 }
 
 int main() {
+  auto start = std::chrono::system_clock::now();
+
   size_t _t, _n, _m;
   std::cin >> _t >> _n >> _m;
 
@@ -241,7 +244,9 @@ int main() {
 
   std::uniform_int_distribution<size_t> dist(0, T-1);
 
-  for (size_t i=0; i<90000; i++) {
+  auto limit = start + std::chrono::milliseconds(2900);
+  size_t count = 0;
+  while (std::chrono::system_clock::now() < limit) {
     auto idx = dist(engine);
     auto cmd = random_command(engine);
 
@@ -255,12 +260,14 @@ int main() {
       } else {
         std::swap(command_seq[idx], cmd);
       }
+      count++;
     }
   }
 
   for (auto cmd : command_seq) {
     std::cout << cmd << std::endl;
   }
+  std::cerr << count << std::endl;
 
   return 0;
 }
