@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
+#include <unordered_set>
 #include <algorithm>
 #include <cmath>
 #include <cassert>
@@ -71,20 +72,20 @@ struct GameStatus {
   ull const money;
   std::vector<size_t> const skill_set;
   std::vector<size_t> const experience;
-  std::vector<bool> const orders_finished;
+  std::unordered_set<size_t> const orders_finished;
 
   GameStatus()
     : turn(1)
     , money(1000)
     , skill_set(N, 0)
     , experience(N, 0)
-    , orders_finished(M, false) {}
+    , orders_finished() {}
 
   GameStatus(size_t const turn,
              ull const money,
              std::vector<size_t> const& skill_set,
              std::vector<size_t> const& experience,
-             std::vector<bool> const& orders_finished)
+             std::unordered_set<size_t> const& orders_finished)
     : turn(turn)
     , money(money)
     , skill_set(skill_set)
@@ -129,7 +130,7 @@ struct GameStatus {
     }
     if (command.tag == 2) {
       size_t order_num = command.num;
-      if (orders_finished[order_num]) return false;
+      if (orders_finished.count(order_num) > 0) return false;
 
       Order const& order = orders[order_num];
       if (turn < order.start_turn) return false;
@@ -157,9 +158,7 @@ struct GameStatus {
       size_t next_level = skill_set[skill] + 1;
       ull cost = 10000*(1<<next_level);
 
-      std::vector<size_t> exp_new;
-      std::copy(experience.begin(), experience.end(),
-                std::back_inserter(exp_new));
+      std::vector<size_t> exp_new(experience);
       if (experience[skill]+1 < next_level) {
         exp_new[skill]++;
         return
@@ -190,10 +189,8 @@ struct GameStatus {
       size_t order_num = command.num;
       Order const& order = orders[order_num];
 
-      std::vector<bool> orders_new;
-      std::copy(orders_finished.begin(), orders_finished.end(),
-                std::back_inserter(orders_new));
-      orders_new[order_num] = true;
+      std::unordered_set<size_t> orders_new(orders_finished);
+      orders_new.insert(order_num);
 
       return
         GameStatus{
