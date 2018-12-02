@@ -24,9 +24,13 @@ int main() {
 
   std::cin >> N;
 
+  size_t ans = 0;
+
   for (size_t i=1; i<N+1; i++) {
-    if (is753(i)) std::cout << i << std::endl;
+    if (is753(i)) ans++;
   }
+
+  std::cout << ans << std::endl;
 
   return 0;
 }
