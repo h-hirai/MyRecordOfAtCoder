@@ -26494,7 +26494,7 @@ int main() {
 
   std::cin >> N;
 
-  auto i = std::lower_bound(list.begin(), list.end(), N);
+  auto i = std::lower_bound(list.begin(), list.end(), N+1);
 
   size_t ans = std::distance(list.begin(), i);
 
