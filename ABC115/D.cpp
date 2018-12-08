@@ -1,27 +1,38 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
-std::vector<bool> Burger(size_t L) {
-  if (L==0) return {true};
+using ll = long long;
 
-  auto const b = Burger(L-1);
-  std::vector<bool> ret = {false};
-  std::copy(b.begin(), b.end(), std::back_inserter(ret));
-  ret.push_back(true);
-  std::copy(b.begin(), b.end(), std::back_inserter(ret));
-  ret.push_back(false);
-  return ret;
+ll solv(size_t N, ll X,
+        std::vector<ll> const& Height,
+        std::vector<ll> const& Patties) {
+  if (X == 0) return 0;
+
+  if (X == Height[N]) return Patties[N];
+
+  if (X-1 <= Height[N-1]) return solv(N-1, X-1, Height, Patties);
+
+  return Patties[N-1] + 1 + solv(N-1, X-Height[N-1]-2, Height, Patties);
 }
 
 int main() {
-  size_t N/*, X*/;
-  std::cin >> N/* >> X*/;
+  size_t N;
+  ll X;
 
-  for (auto b : Burger(N)) {
-    std::cout << (b ? 'P' : 'B');
+  std::cin >> N >> X;
+
+  std::vector<ll> Height(N+1);
+  std::vector<ll> Patties(N+1);
+
+  Height[0] = 1;
+  Patties[0] = 1;
+
+  for (size_t l=1; l<N+1; l++) {
+    Height[l] = Height[l-1] * 2 + 3;
+    Patties[l] = Patties[l-1] * 2 + 1;
   }
-  std::cout << std::endl;
+
+  std::cout << solv(N, X, Height, Patties) << std::endl;
 
   return 0;
 }
