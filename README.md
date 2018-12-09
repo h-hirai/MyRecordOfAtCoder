@@ -2,7 +2,7 @@ AtCoder参加記録
 
 [プロフィールページ](https://beta.atcoder.jp/users/hhirai)
 
-## AtCoder Grand Contest 023
+## [AtCoder Grand Contest 023](AGC023)
 
 ### A. Zero-Sum Ranges
 
@@ -10,7 +10,7 @@ AtCoder参加記録
 
 累積和で求める。累積和を計算していって、ある値になったあとでふたたび同じ値になったとすると、その間の総和は0である。累積和を求めた後、それをソートして、同じ値がいくつあるか数えればよい。
 
-## AtCoder Beginner Contest 096
+## [AtCoder Beginner Contest 096](ABC096)
 
 ### C. Grid Repainting 2
 
@@ -24,7 +24,7 @@ AtCoder参加記録
 
 「5で割った剰余が1になる数」5つの和はかならず5の倍数になり、そのような5555以下の素数は55を優に超えるだけ存在する。
 
-## AtCoder Beginner Contest 097
+## [AtCoder Beginner Contest 097](ABC097)
 
 この回は4問ともRustでも書いてみている。
 
@@ -46,7 +46,7 @@ i∈2,3,...√X となるすべてのiについて、j∈i^2,i^3,...(j≦X)と�
 
 UnionFindTreeを使って解く問題。与えられる組によって、インデックスをグループ化できる。順列のi番目にある数P[i]であるとき、iとP[i]が同じグループであれば、P[i]はiの位置からP[i]の位置に移動できる。そのようなiとP[i]の組み合わせの数が答えになる。
 
-## AtCoder Grand Contest 024
+## [AtCoder Grand Contest 024](AGC024)
 
 ### A. Fairness
 
@@ -68,7 +68,7 @@ A, B, Cに対してK回操作を繰り返した後でA-Bを求める。
 
 作成できる数列は、0から1ずつ階段状に増加する列か、それを上書きしたものになる。
 
-## AtCoder Beginner Contest 098
+## [AtCoder Beginner Contest 098](ABC098)
 
 ### A. Add Sub Mul
 
@@ -98,13 +98,13 @@ N人のひとが整列していて、各々は東または西を向いている�
 
 あるときあらためて書き直してみたらACになってしまったという感じだったので、悩んでたWAのデバッグがまだできていない。
 
-## AtCoder Grand Contest 025
+## [AtCoder Grand Contest 025](AGC025)
 
 ### RGB Coloring
 
 色の点数が与えられたとき、N個のブロックをRGBいずれかに塗って、合計がちょうどK点となる組み合わせはいくつあるか。競プロではよくあるらしい、巨大な数になる解答を998244353の剰余で答えさせる問題。
 
-## AtCoder Beginner Contest 099
+## [AtCoder Beginner Contest 099](ABC099)
 
 ### C. Strange Bank
 
@@ -116,7 +116,7 @@ N人のひとが整列していて、各々は東または西を向いている�
 
 条件を満たす模様は結局3色の縞模様となるので、初期状態を3グループに分け、各グループを同色に塗りつぶすコストを全通り試す。このグループ分けのところで各色の数を集計しておかないと計算量が間に合わなくなるらしい。
 
-## AtCoder Beginner Contest 100
+## [AtCoder Beginner Contest 100](ABC100)
 
 ### B. Ringo's Favorite Numbers
 
@@ -134,7 +134,7 @@ N人のひとが整列していて、各々は東または西を向いている�
 
 (x,y,z) について、(x + y + z)順、(x + y + -z)順、(x + -y + z)順……のように、要素を8通りにソートしておき、それぞれからM個の合計を求めればよい。
 
-## AtCoder Beginner Contest 101
+## [AtCoder Beginner Contest 101](ABC101)
 
 ### C. Minimization
 
@@ -149,7 +149,7 @@ N人のひとが整列していて、各々は東または西を向いている�
 ある程度の法則性が見受けられるものの、完全な法則を見つけることはできないので、「ある程度の法則性」で候補を絞ったあとで、条件でさらに絞り込むという解き方をする。
 
 
-## AtCoder Beginner Contest 102
+## [AtCoder Beginner Contest 102](ABC102)
 
 ### C. Linear Approximation
 
@@ -165,7 +165,7 @@ N人のひとが整列していて、各々は東または西を向いている�
 
 逆イテレータを使用してみた。
 
-## SoundHound Inc. Programming Contest 2018
+## [SoundHound Inc. Programming Contest 2018](SoundHound2018)
 
 ### C. Ordinary Beauty
 
@@ -173,7 +173,7 @@ N人のひとが整列していて、各々は東または西を向いている�
 
 自分にとって初めての浮動小数点数を扱う問題。
 
-## AtCoder Grand Contest 026
+## [AtCoder Grand Contest 026](AGC026)
 
 ### A. Colorful Slimes 2
 
@@ -187,7 +187,7 @@ N人のひとが整列していて、各々は東または西を向いている�
 
 在庫量が、C<在庫<Bという状況にならないかどうかを判定する。在庫量は`A-nB+mD`(n,mは任意の自然数)という式で表せ、この値は`a+m*g`(`a=A%B`,`g=gcd(B,D)`)と表せる。ここから`C<a+m*g<B`という不等式が導けるので、ここから判定条件を得られる。
 
-## AtCoder Beginner Contest 103
+## [AtCoder Beginner Contest 103](ABC103)
 
 ### B. String Rotation
 
@@ -205,7 +205,7 @@ N人のひとが整列していて、各々は東または西を向いている�
 
 (n)-(n+1) 間のリンクをnとしたとき、a <= n < b であるようなすべての組は、n のリンクを切断することで連絡をなくすことができるので、M個の組をa_mについてソートして頭からなめていき、aがそこまでbの最小値を上回ったところで切断するべきリンク数をインクリメントして、また走査を繰り返す。
 
-## SoundHound Inc. Programming Contest 2018 本戦
+## [SoundHound Inc. Programming Contest 2018 本戦](SoundHound2018_Final)
 
 ### A. Feel the Beat
 
@@ -218,7 +218,7 @@ N人のひとが整列していて、各々は東または西を向いている�
 
 符号あり整数の列Bを与えられる。連続するK個以上の任意の部分列を何度でもすべて0にできる。総和を最大になるように操作したときの総和を求める。
 
-## Mujin Programming Challenge 2018
+## [Mujin Programming Challenge 2018](Mujin2018)
 
 ### B. セキュリティ
 
@@ -231,7 +231,7 @@ N人のひとが整列していて、各々は東または西を向いている�
 
 各グリッド、上下左右4つについて、進行可能スペースの数を記録しておく。方向転換地点に着目し、全グリッドについて進行可能スペースの組み合わせを加算していく。
 
-## AtCoder Beginner Contest 104
+## [AtCoder Beginner Contest 104](ABC104)
 
 ### C. All Green
 
