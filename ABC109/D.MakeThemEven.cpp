@@ -39,7 +39,7 @@ int main() {
     } else {
       for (size_t x=W; x>0; x--) {
         if (A[y-1][x-1] % 2 == 1) {
-          if (x>0)
+          if (x>1)
             move(y, x, y, x-1, A, ans);
           else if (y<H)
             move(y, x, y+1, x, A, ans);
