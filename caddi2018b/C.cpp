@@ -55,8 +55,11 @@ int main() {
   size_t ans = 1;
 
   for (auto const & p : get_prime_factors(P)) {
-    if (std::get<1>(p) >= N)
+    auto n = std::get<1>(p);
+    while (n >= N) {
       ans *= std::get<0>(p);
+      n -= N;
+    }
   }
 
   std::cout << ans << std::endl;
