@@ -1,35 +1,9 @@
 #include <iostream>
-#include <vector>
 #include <map>
 #include <cmath>
 
-std::vector<size_t>
-get_primes(size_t MaxPrime) {
-  std::vector<size_t> primes;
-  std::vector<bool> is_prime(MaxPrime+1, true);
-  is_prime[0] = false;
-  is_prime[1] = false;
-
-  for (size_t i=2; i<=std::sqrt(MaxPrime); i++) {
-    if (is_prime[i]) {
-      primes.push_back(i);
-      for (size_t j=i*i; j<=MaxPrime; j+=i) {
-        is_prime[j] = false;
-      }
-    }
-  }
-
-  for (size_t i=std::sqrt(MaxPrime)+1; i<=MaxPrime; i++) {
-    if (is_prime[i]) {
-      primes.push_back(i);
-    }
-  }
-
-  return primes;
-}
-
 std::map<size_t, size_t>
-get_prime_factors(size_t N) {
+get_prime_factors(size_t const N) {
   std::map<size_t, size_t> prime_factors;
 
   if (N<2) {
@@ -37,14 +11,15 @@ get_prime_factors(size_t N) {
     return prime_factors;
   }
 
-  for (auto const p : get_primes(std::sqrt(N))) {
-    while (N % p == 0) {
+  auto n = N;
+  for (size_t p=2; p*p<=N; p++) {
+    while (n % p == 0) {
       prime_factors[p]++;
-      N /= p;
+      n /= p;
     }
   }
 
-  if (N > 1) prime_factors[N]++;
+  if (n > 1) prime_factors[n]++;
 
   return prime_factors;
 }
