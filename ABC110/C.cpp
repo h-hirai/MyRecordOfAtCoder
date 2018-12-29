@@ -16,7 +16,7 @@ bool judge(std::string const& S,
     }
   }
 
-  return dict.size() < 27;
+  return true;
 }
 
 int main() {
