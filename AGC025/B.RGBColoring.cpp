@@ -16,33 +16,9 @@ class Modulo {
   }
 
   friend
-  bool
-  operator==(Modulo<INT, P> const& a, Modulo<INT, P> const& b) {
-    return a.val == b.val;
-  }
-
-  friend
-  bool
-  operator==(Modulo<INT, P> const& a, INT b) {
-    return a.val == b;
-  }
-
-  friend
-  bool
-  operator==(INT a, Modulo<INT, P> const& b) {
-    return a == b.val;
-  }
-
-  friend
   Modulo<INT, P>
   operator*(Modulo<INT, P> const& a, Modulo<INT, P> const& b) {
     return a.val * b.val;
-  }
-
-  friend
-  Modulo<INT, P>
-  operator+(Modulo<INT, P> const& a, Modulo<INT, P> const& b) {
-    return a.val + b.val;
   }
 
   static std::vector<INT> _facts;
