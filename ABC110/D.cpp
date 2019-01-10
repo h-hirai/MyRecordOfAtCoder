@@ -85,7 +85,7 @@ get_prime_factors(ull const N) {
   std::map<ull, ull> prime_factors;
 
   if (N<2) {
-    prime_factors.insert(std::make_pair(N, 1));
+    // prime_factors.insert(std::make_pair(N, 1));
     return prime_factors;
   }
 
