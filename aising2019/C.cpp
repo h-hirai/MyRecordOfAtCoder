@@ -8,13 +8,8 @@ int main() {
   std::cin >> H >> W;
 
   std::vector<bool> grid(H*W);
-  std::vector<size_t> ids(H*W);
-  std::vector<size_t> cnt_b;
-  std::vector<size_t> cnt_w;
-  cnt_b.reserve(H*W);
-  cnt_w.reserve(H*W);
-
-  size_t num_id = 0;
+  std::map<size_t, size_t> cnt_b;
+  std::map<size_t, size_t> cnt_w;
 
   for (ssize_t i=0; i<H; i++) {
     for (ssize_t j=0; j<W; j++) {
@@ -24,50 +19,38 @@ int main() {
 
       auto self = W*i+j;
 
+      cnt_b.insert(std::make_pair(self, grid[self]?1:0));
+      cnt_w.insert(std::make_pair(self, grid[self]?0:1));
+
       if (i>0) {
         auto up = W*(i-1)+j;
         if (grid[self] != grid[up]) {
-          auto id = ids[up];
-          ids[self] = id;
-          if (grid[self])
-            cnt_b[id]++;
-          else
-            cnt_w[id]++;
-          continue;
+          cnt_b[self] += cnt_b[up];
+          cnt_w[self] += cnt_w[up];
+          cnt_b.erase(up);
+          cnt_w.erase(up);
         }
       }
 
       if (j>0) {
         auto left = W*i+j-1;
         if (grid[self] != grid[left]) {
-          auto id = ids[left];
-          ids[self] = id;
-          if (grid[self])
-            cnt_b[id]++;
-          else
-            cnt_w[id]++;
-          continue;
+          cnt_b[self] += cnt_b[left];
+          cnt_w[self] += cnt_w[left];
+          cnt_b.erase(left);
+          cnt_w.erase(left);
         }
       }
-
-      if (i==0 && j==0) {
-        cnt_b.push_back(grid[self]?1:0);
-        cnt_w.push_back(grid[self]?0:1);
-        num_id++;
-        continue;
-      }
-
-      cnt_b.push_back(grid[self]?1:0);
-      cnt_w.push_back(grid[self]?0:1);
-      ids[self] = num_id;
-      num_id++;
     }
   }
 
   size_t ans = 0;
 
-  for (size_t i=0; i<num_id; i++) {
-    ans += cnt_b[i] * cnt_w[i];
+  for (auto p : cnt_b) {
+    auto k = std::get<0>(p);
+    auto b = std::get<1>(p);
+    auto w = cnt_w[k];
+    ans += b * w;
   }
 
   std::cout << ans << std::endl;
