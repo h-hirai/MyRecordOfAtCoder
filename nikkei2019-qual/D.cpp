@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include <map>
 #include <set>
 #include <algorithm>
@@ -34,14 +33,11 @@ int main() {
   std::cin >> N >> M;
 
   size_t const NumEdges = N - 1 + M;
-  std::vector<std::pair<size_t, size_t>> Edgeds(NumEdges);
   std::map<size_t, std::set<size_t>> Parents;
 
   for (size_t i=0; i<NumEdges; i++) {
     size_t A, B;
     std::cin >> A >> B;
-    A--; B--;
-    Edgeds[i] = std::make_pair(A, B);
     if (Parents.count(B) > 0) {
       Parents.at(B).insert(A);
     } else {
@@ -53,14 +49,14 @@ int main() {
 
   Rank rank(Parents);
 
-  for (size_t i=0; i<N; i++) {
+  for (size_t i=1; i<N+1; i++) {
     if (Parents.count(i) > 0) {
       auto const& ps = Parents.at(i);
       auto ans = *std::max_element(ps.begin(), ps.end(),
                                    [&](auto a, auto b){return rank(a) < rank(b);});
-      std::cout << (ans + 1) << std::endl;
+      std::cout << ans << '\n';
     } else {
-      std::cout << 0 << std::endl;
+      std::cout << 0 << '\n';
     }
   }
 
