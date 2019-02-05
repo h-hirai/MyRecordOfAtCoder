@@ -82,10 +82,25 @@ fn main() {
         bit_counter
     };
 
+    let mut flg = false;
+
     let x = (0..k_width).rev().fold(0, |acc, i| {
         let d = 1<<i;
-        if k & d > 0 && n > bit_counter[i] * 2 {
-            acc + d
+        if k & d > 0 {
+            if n > bit_counter[i] * 2 {
+                flg = false;
+                acc + d
+            } else {
+                flg = true;
+                acc
+            }
+        } else if flg {
+            if n > bit_counter[i] * 2 {
+                flg = false;
+                acc + d
+            } else {
+                acc
+            }
         } else {
             acc
         }
