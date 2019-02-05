@@ -66,7 +66,6 @@ fn main() {
         0
     };
 
-
     let bit_counter = {
         let mut bit_counter: Vec<usize> = vec![0; k_width];
 
@@ -83,13 +82,9 @@ fn main() {
     };
 
     let x = (0..k_width).rev().fold(0, |acc, i| {
-        let d = 1<<i;
-        if k & d > 0 && n > bit_counter[i] * 2 {
-            if acc + d > k {
-                acc
-            } else {
-                acc + d
-            }
+        let x = acc + (1<<i);
+        if n > bit_counter[i] * 2 && k >= x {
+            x
         } else {
             acc
         }
