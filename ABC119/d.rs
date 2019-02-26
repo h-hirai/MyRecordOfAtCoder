@@ -70,7 +70,7 @@ fn solv(x: i64, ss: &Vec<i64>, ts: &Vec<i64>) -> i64 {
     let (s0, s1) = search(x, ss);
     let (t0, t1) = search(x, ts);
 
-    [(s0, t0), (s0, t1), (s1, t0), (s1, t1)].into_iter().map(|(t, s)| {
+    [(s0, t0), (s0, t1), (s1, t0), (s1, t1)].into_iter().map(|&(t, s)| {
         std::cmp::min((x - s).abs(), (x - t).abs()) + (s - t).abs()
     }).min().unwrap()
 }
