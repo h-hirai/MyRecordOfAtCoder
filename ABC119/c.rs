@@ -61,7 +61,7 @@ struct SelectionGenerator {
 
 impl SelectionGenerator {
     fn new(n: usize) -> SelectionGenerator {
-        SelectionGenerator{n, curr: 0, ubound: 1<<n*2}
+        SelectionGenerator{n: n, curr: 0, ubound: 1<<n*2}
     }
 }
 
