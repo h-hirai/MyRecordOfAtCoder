@@ -1,43 +1,85 @@
 #include <iostream>
 #include <vector>
-#include <map>
 
-using ull = unsigned long long;
-using Key_t = std::tuple<size_t, size_t, size_t>;
+using INT = long long;
 
-ull solv(size_t L, size_t loc, size_t ccw, size_t cw,
-         std::vector<size_t> const& X, std::map<Key_t, ull>& memo) {
-  Key_t key = std::make_tuple(loc, ccw, cw);
-  if (memo.count(key) > 0) return memo.at(key);
+struct Solver {
+  size_t const L;
+  size_t const N;
+  std::vector<INT> const& X;
 
-  auto dist_ccw = (L + X[ccw] - loc) % L;
-  auto dist_cw = (L + loc - X[cw]) % L;
+  std::vector<std::vector<INT>> cache_L;
+  std::vector<std::vector<INT>> cache_R;
 
-  if (ccw == cw) return std::max(dist_ccw, dist_cw);
+  Solver(size_t L, size_t N, std::vector<INT> const& X)
+    : L(L)
+    , N(N)
+    , X(X)
+    , cache_L(N+1, std::vector<INT>(N+1, -1))
+    , cache_R(N+1, std::vector<INT>(N+1, -1)) {}
 
-  auto rest_ccw = solv(L, X[ccw], ccw+1, cw, X, memo);
-  auto rest_cw = solv(L, X[cw], ccw, cw-1, X, memo);
+  INT from_left(size_t burned_left, size_t burned_right) {
+    if (cache_L[burned_left][burned_right] >= 0)
+      return cache_L[burned_left][burned_right];
 
-  auto ans = std::max(dist_ccw + rest_ccw, dist_cw + rest_cw);
-  memo.insert(std::make_pair(key, ans));
+    INT dist_to_left = (L + X[burned_left+1] - X[burned_left]) % L;
+    INT dist_to_right = (L + X[burned_left] - X[N-burned_right]) % L;
 
-  return ans;
-}
+    INT ans;
+
+    if (burned_left + burned_right < N) {
+      INT ans_to_left = dist_to_left + from_left(burned_left+1, burned_right);
+      INT ans_to_right = dist_to_right + from_right(burned_left, burned_right+1);
+      ans = std::max(ans_to_left, ans_to_right);
+    } else {
+      ans = 0;
+    }
+
+    return cache_L[burned_left][burned_right] = ans;
+  }
+
+  INT from_right(size_t burned_left, size_t burned_right) {
+    if (cache_R[burned_left][burned_right] >= 0)
+      return cache_R[burned_left][burned_right];
+
+    INT dist_to_left = (L + X[burned_left+1] - X[N-burned_right+1]) % L;
+    INT dist_to_right = (L + X[N-burned_right+1] - X[N-burned_right]) % L;
+
+    INT ans;
+
+    if (burned_left + burned_right < N) {
+      INT ans_to_left = dist_to_left + from_left(burned_left+1, burned_right);
+      INT ans_to_right = dist_to_right + from_right(burned_left, burned_right+1);
+      ans = std::max(ans_to_left, ans_to_right);
+    } else {
+      ans = 0;
+    }
+
+    return cache_R[burned_left][burned_right] = ans;
+  }
+
+  INT solv() {
+    return std::max(X[1] + from_left(1, 0), X[N+1]-X[N] + from_right(0, 1));
+  }
+};
 
 int main() {
   size_t L, N;
 
   std::cin >> L >> N;
 
-  std::vector<size_t> X(N);
+  std::vector<INT> X;
+  X.reserve(N+2);
 
+  X.push_back(0);
   for (size_t i=0; i<N; i++) {
-    std::cin >> X[i];
+    INT x;
+    std::cin >> x;
+    X.push_back(x);
   }
+  X.push_back(L);
 
-  std::map<Key_t, ull> memo;
-
-  std::cout << solv(L, 0, 0, N-1, X, memo) << std::endl;
+  std::cout << Solver(L, N, X).solv() << std::endl;
 
   return 0;
 }
