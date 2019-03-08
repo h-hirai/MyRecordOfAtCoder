@@ -1,69 +1,46 @@
 #include <iostream>
-#include <cstdlib>
-#include <algorithm>
-#include <iterator>
 #include <vector>
-#include <map>
 
-int
-find_pos(std::vector<int> const & table,
-         int number) {
-  return table[number];
-}
-
-int
-move_piece(int l, int r, int w) {
-  int lx = l % w;
-  int ly = l / w;
-  int rx = r % w;
-  int ry = r / w;
-
-  return std::abs(lx - rx) + std::abs(ly - ry);
+size_t
+dist(std::pair<ssize_t, ssize_t> a, std::pair<ssize_t, ssize_t> b) {
+  return std::abs(a.first - b.first) + std::abs(a.second - b.second);
 }
 
 int main() {
-  int h;
-  int w;
-  int d;
-  std::cin >> h;
-  std::cin >> w;
-  std::cin >> d;
+  size_t H, W, D;
+  std::cin >> H >> W >> D;
 
-  std::vector<int> table(h*w);
+  std::vector<std::pair<size_t, size_t>> coords(H*W);
 
-  for (int y=0; y<h; y++) {
-    for (int x=0; x<w; x++) {
+  for (size_t y=0; y<H; y++) {
+    for (size_t x=0; x<W; x++) {
       int a;
       std::cin >> a;
-      table[a] = y*w+x;
+      coords[a-1] = std::make_pair(y-1, x-1);
     }
   }
 
-  int q;
-  std::cin >> q;
+  std::vector<size_t> accs(H*W);
 
-  std::map<int, int> memo;
-
-  for (int i=0; i<q; i++) {
-    int l;
-    int r;
-    std::cin >> l;
-    std::cin >> r;
-
-    int result=0;
-
-    auto l_pos = find_pos(table, l);
-
-    while (l != r) {
-      int step;
-      step = find_pos(table, l+d);
-
-      result += move_piece(l_pos, step, w);
-      l_pos = step;
-      l += d;
+  for (size_t i=0; i<H*W; i++) {
+    if (i<D) {
+      accs[i] = 0;
+    } else {
+      accs[i] = accs[i-D] + dist(coords[i-D], coords[i]);
     }
+  }
 
-    std::cout << result << std::endl;
+  size_t Q;
+  std::cin >> Q;
+
+  for (int i=0; i<Q; i++) {
+    int L;
+    int R;
+    std::cin >> L;
+    std::cin >> R;
+    L--; R--;
+
+    std::cout << (accs[R] - accs[L]) << std::endl;
   }
 
   return 0;
