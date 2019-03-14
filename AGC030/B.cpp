@@ -18,44 +18,29 @@ struct Solver {
     , cache_L(N+1, std::vector<INT>(N+1, -1))
     , cache_R(N+1, std::vector<INT>(N+1, -1)) {}
 
-  INT from_left(size_t burned_left, size_t burned_right) {
-    if (cache_L[burned_left][burned_right] >= 0)
-      return cache_L[burned_left][burned_right];
+  INT solv_main(size_t curr, size_t left, size_t right) {
+    INT dist_to_left = (L + X[left+1] - X[curr]) % L;
+    INT dist_to_right = (L + X[curr] - X[N-right]) % L;
 
-    INT dist_to_left = (L + X[burned_left+1] - X[burned_left]) % L;
-    INT dist_to_right = (L + X[burned_left] - X[N-burned_right]) % L;
-
-    INT ans;
-
-    if (burned_left + burned_right < N) {
-      INT ans_to_left = dist_to_left + from_left(burned_left+1, burned_right);
-      INT ans_to_right = dist_to_right + from_right(burned_left, burned_right+1);
-      ans = std::max(ans_to_left, ans_to_right);
+    if (left + right < N) {
+      INT ans_to_left = dist_to_left + from_left(left+1, right);
+      INT ans_to_right = dist_to_right + from_right(left, right+1);
+      return std::max(ans_to_left, ans_to_right);
     } else {
-      ans = 0;
+      return 0;
     }
+  }
 
-    return cache_L[burned_left][burned_right] = ans;
+  INT from_left(size_t burned_left, size_t burned_right) {
+    auto& cache = cache_L[burned_left][burned_right];
+    if (cache >= 0) return cache;
+    return cache = solv_main(burned_left, burned_left, burned_right);
   }
 
   INT from_right(size_t burned_left, size_t burned_right) {
-    if (cache_R[burned_left][burned_right] >= 0)
-      return cache_R[burned_left][burned_right];
-
-    INT dist_to_left = (L + X[burned_left+1] - X[N-burned_right+1]) % L;
-    INT dist_to_right = (L + X[N-burned_right+1] - X[N-burned_right]) % L;
-
-    INT ans;
-
-    if (burned_left + burned_right < N) {
-      INT ans_to_left = dist_to_left + from_left(burned_left+1, burned_right);
-      INT ans_to_right = dist_to_right + from_right(burned_left, burned_right+1);
-      ans = std::max(ans_to_left, ans_to_right);
-    } else {
-      ans = 0;
-    }
-
-    return cache_R[burned_left][burned_right] = ans;
+    auto& cache = cache_R[burned_left][burned_right];
+    if (cache >= 0) return cache;
+    return cache = solv_main(N-burned_right+1, burned_left, burned_right);
   }
 
   INT solv() {
