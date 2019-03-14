@@ -2,7 +2,6 @@
 #include <vector>
 #include <unordered_map>
 #include <queue>
-#include <set>
 #include <limits>
 
 using Graph_t = std::vector<std::unordered_map<size_t, size_t>>;
@@ -57,15 +56,15 @@ int main() {
   auto f_y = calc_fare(g_y, s);
   auto f_s = calc_fare(g_s, t);
 
-  std::set<std::pair<size_t, size_t>> fare;
-  for (size_t i=0; i<n; i++) {
-    fare.emplace(f_y[i]+f_s[i], i);
+  std::vector<size_t> anss(n);
+  auto f_min = f_y[n-1] + f_s[n-1];
+  for (ssize_t i=n-1; i>=0; i--) {
+    f_min = std::min(f_min, f_y[i] + f_s[i]);
+    anss[i] = 1'000'000'000'000'000 - f_min;
   }
 
-  for (size_t i=0; i<n; i++) {
-    auto ans = 1'000'000'000'000'000 - fare.cbegin()->first;
+  for (auto ans : anss) {
     std::cout << ans << '\n';
-    fare.erase(std::make_pair(f_y[i]+f_s[i], i));
   }
 
   return 0;
