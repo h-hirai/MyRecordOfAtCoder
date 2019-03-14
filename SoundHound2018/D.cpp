@@ -20,6 +20,8 @@ std::vector<size_t> calc_fare(Graph_t const& g, size_t start) {
     std::tie(fare, u) = que.top();
     que.pop();
 
+    if (fare > ret[u]) continue;
+
     for (auto const& p: g[u]) {
       size_t v, f;
       std::tie(v, f) = p;
