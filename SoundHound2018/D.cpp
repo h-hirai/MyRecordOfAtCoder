@@ -64,7 +64,7 @@ int main() {
 
   for (size_t i=0; i<n; i++) {
     auto ans = 1000'000'000'000'000 - *fare.begin();
-    std::cout << ans << std::endl;
+    std::cout << ans << '\n';
     fare.erase(f_y[i]+f_s[i]);
   }
 
