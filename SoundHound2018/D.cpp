@@ -57,15 +57,15 @@ int main() {
   auto f_y = calc_fare(g_y, s);
   auto f_s = calc_fare(g_s, t);
 
-  std::multiset<size_t> fare;
+  std::set<std::pair<size_t, size_t>> fare;
   for (size_t i=0; i<n; i++) {
-    fare.insert(f_y[i]+f_s[i]);
+    fare.emplace(f_y[i]+f_s[i], i);
   }
 
   for (size_t i=0; i<n; i++) {
-    auto ans = 1000'000'000'000'000 - *fare.begin();
+    auto ans = 1'000'000'000'000'000 - fare.cbegin()->first;
     std::cout << ans << '\n';
-    fare.erase(f_y[i]+f_s[i]);
+    fare.erase(std::make_pair(f_y[i]+f_s[i], i));
   }
 
   return 0;
