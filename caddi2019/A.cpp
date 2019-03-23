@@ -47,6 +47,30 @@ Coord_t sparse_zone(Zones_t const& zones) {
   return std::make_tuple(min_x, min_y, min_z);
 }
 
+Coord_t sparse_zone2(Zones_t const& zones) {
+  size_t min = N;
+  size_t min_x = 5;
+  size_t min_y = 5;
+  size_t min_z = 5;
+
+  for (size_t x=1; x<4; x++) {
+    for (size_t y=1; y<4; y++) {
+      for (size_t z=1; z<4; z++) {
+        auto s = zones[x][y][z].size();
+        if (s == 0) return std::make_tuple(x, y, z);
+        if (s < min) {
+          min = s;
+          min_x = x;
+          min_y = y;
+          min_z = z;
+        }
+      }
+    }
+  }
+
+  return std::make_tuple(min_x, min_y, min_z);
+}
+
 Coord_t random_coord(std::default_random_engine engine,
                      int lx, int ux,
                      int ly, int uy,
@@ -135,36 +159,40 @@ int main() {
   while (std::chrono::system_clock::now() < limit) {
     for (auto i: Porder) {
       if (centers[i] != std::make_tuple(-1, -1, -1)) continue;
-      if (P[i]*200 < R[i]*R[i])  continue;
+      // if (P[i]*100 < R[i]*R[i]) continue;
+
+      ssize_t ix, iy, iz;
+      int lx, ly, lz, ux, uy, uz;
 
       if (R[i] < 100) {
         auto z = sparse_zone(zones);
-        ssize_t ix = std::get<0>(z);
-        ssize_t iy = std::get<1>(z);
-        ssize_t iz = std::get<2>(z);
-        auto lx = ix * 200 + R[i];
-        auto ly = iy * 200 + R[i];
-        auto lz = iz * 200 + R[i];
-        auto ux = (ix+1) * 200 - R[i];
-        auto uy = (iy+1) * 200 - R[i];
-        auto uz = (iz+1) * 200 - R[i];
-        auto c = random_coord(engine, lx, ux, ly, uy, lz, uz);
-
-        if (can_put(c, R[i], R, centers, zones)) {
-          centers[i] = c;
-          zones[ix][iy][iz].push_back(i);
-        }
+        ix = std::get<0>(z);
+        iy = std::get<1>(z);
+        iz = std::get<2>(z);
+        lx = ix * 200 + R[i];
+        ly = iy * 200 + R[i];
+        lz = iz * 200 + R[i];
+        ux = (ix+1) * 200 - R[i];
+        uy = (iy+1) * 200 - R[i];
+        uz = (iz+1) * 200 - R[i];
       } else {
-        auto c = random_coord(engine, R[i], L-R[i], R[i], L-R[i], R[i], L-R[i]);
+        auto z = sparse_zone2(zones);
+        ix = std::get<0>(z);
+        iy = std::get<1>(z);
+        iz = std::get<2>(z);
+        lx = ix * 200;
+        ly = iy * 200;
+        lz = iz * 200;
+        ux = (ix+1) * 200;
+        uy = (iy+1) * 200;
+        uz = (iz+1) * 200;
+      }
 
-        if (can_put(c, R[i], R, centers, zones)) {
-          centers[i] = c;
+      auto c = random_coord(engine, lx, ux, ly, uy, lz, uz);
 
-          ssize_t ix = std::get<0>(c) / 200;
-          ssize_t iy = std::get<1>(c) / 200;
-          ssize_t iz = std::get<2>(c) / 200;
-          zones[ix][iy][iz].push_back(i);
-        }
+      if (can_put(c, R[i], R, centers, zones)) {
+        centers[i] = c;
+        zones[ix][iy][iz].push_back(i);
       }
     }
 
