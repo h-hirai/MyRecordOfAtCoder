@@ -58,7 +58,7 @@ bool can_put(Coord_t c, int r,
         auto const& lst = z[i][j][k];
         for (auto l: lst)
           if (collision(c, r, centers[l], R[l])) {
-            std::cerr << "collision: " << c << r << centers[l] << R[l] << std::endl;
+            // std::cerr << "collision: " << c << r << centers[l] << R[l] << std::endl;
             return false;
           }
       }
@@ -82,10 +82,10 @@ int main() {
     std::cin >> R[i] >> P[i];
   }
 
-  std::vector<size_t> A(N);
-  std::vector<size_t> B(N);
-  std::vector<int> C(N);
-  std::vector<size_t> D(N);
+  std::vector<size_t> A(M);
+  std::vector<size_t> B(M);
+  std::vector<int> C(M);
+  std::vector<size_t> D(M);
 
   for (size_t i=0; i<M; i++) {
     std::cin >> A[i] >> B[i];
