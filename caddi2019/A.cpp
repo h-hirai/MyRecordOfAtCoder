@@ -1,5 +1,6 @@
 #include <iostream>
 #include <random>
+#include <algorithm>
 #include <vector>
 #include <list>
 #include <tuple>
@@ -78,9 +79,15 @@ int main() {
   std::vector<int> R(N);
   std::vector<size_t> P(N);
 
+  std::vector<size_t> Porder(N);
+
   for (size_t i=0; i<N; i++) {
     std::cin >> R[i] >> P[i];
+    Porder[i]=i;
   }
+
+  std::sort(Porder.begin(), Porder.end(),
+            [&](auto a, auto b){return P[b] < P[a];});
 
   std::vector<size_t> A(M);
   std::vector<size_t> B(M);
@@ -102,7 +109,7 @@ int main() {
   size_t loops = 0;
 
   while (std::chrono::system_clock::now() < limit) {
-    for (size_t i=0; i<N; i++) {
+    for (auto i: Porder) {
       if (centers[i] != std::make_tuple(-1, -1, -1)) continue;
 
       auto c = random_coord(engine, R[i], L-R[i], R[i], L-R[i], R[i], L-R[i]);
