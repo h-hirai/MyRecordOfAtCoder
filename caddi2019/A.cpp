@@ -23,6 +23,30 @@ operator<<(std::ostream& os, Coord_t const& c) {
             << std::get<2>(c) << ')';
 }
 
+Coord_t sparse_zone(Zones_t const& zones) {
+  size_t min = N;
+  size_t min_x = 5;
+  size_t min_y = 5;
+  size_t min_z = 5;
+
+  for (size_t x=0; x<5; x++) {
+    for (size_t y=0; y<5; y++) {
+      for (size_t z=0; z<5; z++) {
+        auto s = zones[x][y][z].size();
+        if (s == 0) return std::make_tuple(x, y, z);
+        if (s < min) {
+          min = s;
+          min_x = x;
+          min_y = y;
+          min_z = z;
+        }
+      }
+    }
+  }
+
+  return std::make_tuple(min_x, min_y, min_z);
+}
+
 Coord_t random_coord(std::default_random_engine engine,
                      int lx, int ux,
                      int ly, int uy,
@@ -111,15 +135,36 @@ int main() {
   while (std::chrono::system_clock::now() < limit) {
     for (auto i: Porder) {
       if (centers[i] != std::make_tuple(-1, -1, -1)) continue;
+      if (P[i]*200 < R[i]*R[i])  continue;
 
-      auto c = random_coord(engine, R[i], L-R[i], R[i], L-R[i], R[i], L-R[i]);
-      if (can_put(c, R[i], R, centers, zones)) {
-        centers[i] = c;
+      if (R[i] < 100) {
+        auto z = sparse_zone(zones);
+        ssize_t ix = std::get<0>(z);
+        ssize_t iy = std::get<1>(z);
+        ssize_t iz = std::get<2>(z);
+        auto lx = ix * 200 + R[i];
+        auto ly = iy * 200 + R[i];
+        auto lz = iz * 200 + R[i];
+        auto ux = (ix+1) * 200 - R[i];
+        auto uy = (iy+1) * 200 - R[i];
+        auto uz = (iz+1) * 200 - R[i];
+        auto c = random_coord(engine, lx, ux, ly, uy, lz, uz);
 
-        ssize_t ix = std::get<0>(c) / 200;
-        ssize_t iy = std::get<1>(c) / 200;
-        ssize_t iz = std::get<2>(c) / 200;
-        zones[ix][iy][iz].push_back(i);
+        if (can_put(c, R[i], R, centers, zones)) {
+          centers[i] = c;
+          zones[ix][iy][iz].push_back(i);
+        }
+      } else {
+        auto c = random_coord(engine, R[i], L-R[i], R[i], L-R[i], R[i], L-R[i]);
+
+        if (can_put(c, R[i], R, centers, zones)) {
+          centers[i] = c;
+
+          ssize_t ix = std::get<0>(c) / 200;
+          ssize_t iy = std::get<1>(c) / 200;
+          ssize_t iz = std::get<2>(c) / 200;
+          zones[ix][iy][iz].push_back(i);
+        }
       }
     }
 
