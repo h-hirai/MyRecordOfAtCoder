@@ -135,7 +135,7 @@ int main() {
   while (std::chrono::system_clock::now() < limit) {
     for (auto i: Porder) {
       if (centers[i] != std::make_tuple(-1, -1, -1)) continue;
-      if (P[i]*200 < R[i]*R[i])  continue;
+      // if (P[i]*200 < R[i]*R[i]) continue;
 
       if (R[i] < 100) {
         auto z = sparse_zone(zones);
