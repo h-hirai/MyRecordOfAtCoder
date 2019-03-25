@@ -1,0 +1,96 @@
+// たなこふ先生の input マクロ (´･_･`)
+// https://qiita.com/tanakh/items/0ba42c7ca36cd29d0ac8
+
+#[allow(unused_macros)]
+macro_rules! input {
+    (source = $s:expr, $($r:tt)*) => {
+        let mut iter = $s.split_whitespace();
+        input_inner!{iter, $($r)*}
+    };
+    ($($r:tt)*) => {
+        let s = {
+            use std::io::Read;
+            let mut s = String::new();
+            std::io::stdin().read_to_string(&mut s).unwrap();
+            s
+        };
+        let mut iter = s.split_whitespace();
+        input_inner!{iter, $($r)*}
+    };
+}
+
+#[allow(unused_macros)]
+macro_rules! input_inner {
+    ($iter:expr) => {};
+    ($iter:expr, ) => {};
+
+    ($iter:expr, $var:ident : $t:tt $($r:tt)*) => {
+        let $var = read_value!($iter, $t);
+        input_inner!{$iter $($r)*}
+    };
+}
+
+#[allow(unused_macros)]
+macro_rules! read_value {
+    ($iter:expr, ( $($t:tt),* )) => {
+        ( $(read_value!($iter, $t)),* )
+    };
+
+    ($iter:expr, [ $t:tt ; $len:expr ]) => {
+        (0..$len).map(|_| read_value!($iter, $t)).collect::<Vec<_>>()
+    };
+
+    ($iter:expr, chars) => {
+        read_value!($iter, String).chars().collect::<Vec<char>>()
+    };
+
+    ($iter:expr, usize1) => {
+        // read_value!($iter, usize) - 1
+        read_value!($iter, usize) + 1
+    };
+
+    ($iter:expr, $t:ty) => {
+        $iter.next().unwrap().parse::<$t>().expect("Parse error")
+    };
+}
+
+fn main() {
+    input! {
+        n: usize,
+        reds: [(usize1, usize1); n],
+        blues: [(usize1, usize1); n],
+    }
+
+    let mut red_map = vec![vec![false; n*2+1]; n*2+1];
+    for (a, b) in reds {
+        red_map[a][b] = true;
+    }
+
+    let mut blue_map = vec![vec![false; n*2+1]; n*2+1];
+    for (c, d) in blues {
+        blue_map[c][d] = true;
+    }
+
+    let mut red_acc = vec![vec![0; n*2+1]; n*2+1];
+    let mut blue_acc = vec![vec![0; n*2+1]; n*2+1];
+    let mut ans = 0;
+
+    for y in 1..n*2+1 {
+        for x in 1..n*2+1 {
+            use std::cmp::max;
+
+            red_acc[y][x] = max(red_acc[y-1][x], red_acc[y][x-1]);
+            if red_map[y][x] { red_acc[y][x]+=1; }
+
+            blue_acc[y][x] = max(blue_acc[y-1][x], blue_acc[y][x-1]);
+            if blue_map[y][x] {
+                blue_acc[y][x]+=1;
+                if red_acc[y][x] >= blue_acc[y][x] {
+                    ans += 1;
+                }
+            }
+        }
+    }
+
+    println!("{}", ans);
+}
