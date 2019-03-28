@@ -45,8 +45,7 @@ macro_rules! read_value {
     };
 
     ($iter:expr, usize1) => {
-        // read_value!($iter, usize) - 1
-        read_value!($iter, usize) + 1
+        read_value!($iter, usize) - 1
     };
 
     ($iter:expr, $t:ty) => {
@@ -54,42 +53,34 @@ macro_rules! read_value {
     };
 }
 
+use std::collections::BTreeSet;
+
 fn main() {
     input! {
         n: usize,
-        reds: [(usize1, usize1); n],
-        blues: [(usize1, usize1); n],
+        reds: [(usize, usize); n],
+        blues: [(usize, usize); n],
     }
 
-    let mut red_map = vec![vec![false; n*2+1]; n*2+1];
-    for (a, b) in reds {
-        red_map[a][b] = true;
-    }
+    let reds: BTreeSet<_> = reds.iter().collect();
+    let mut blues: BTreeSet<_> = blues.iter().collect();
 
-    let mut blue_map = vec![vec![false; n*2+1]; n*2+1];
-    for (c, d) in blues {
-        blue_map[c][d] = true;
-    }
-
-    let mut red_acc = vec![vec![0; n*2+1]; n*2+1];
-    let mut blue_acc = vec![vec![0; n*2+1]; n*2+1];
     let mut ans = 0;
 
-    for y in 1..n*2+1 {
-        for x in 1..n*2+1 {
-            use std::cmp::max;
+    for &(a, b) in reds.into_iter().rev() {
+        let mut tail = blues.split_off(&(a, 0));
+        let mut min = (a, 2*n+1);
 
-            red_acc[y][x] = max(red_acc[y-1][x], red_acc[y][x-1]);
-            if red_map[y][x] { red_acc[y][x]+=1; }
-
-            blue_acc[y][x] = max(blue_acc[y-1][x], blue_acc[y][x-1]);
-            if blue_map[y][x] {
-                blue_acc[y][x]+=1;
-                if red_acc[y][x] >= blue_acc[y][x] {
-                    ans += 1;
-                }
+        for &&(c, d) in &tail {
+            if b < d && d < min.1 {
+                min = (c, d);
             }
         }
+
+        if tail.remove(&min) {
+            ans += 1;
+        }
+        blues.append(&mut tail);
     }
 
     println!("{}", ans);
