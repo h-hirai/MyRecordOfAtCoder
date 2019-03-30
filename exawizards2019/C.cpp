@@ -6,11 +6,11 @@
 using commands_t = std::unordered_map<char, std::map<size_t, bool>>;
 
 int simulate(int N, int i, int j,
-             std::string const& S, commands_t const& td) {
+             std::string const& S, commands_t& td) {
   if (i < 0) return -1;
   if (i >= N) return N;
 
-  auto const& cmds = td.at(S[i]);
+  auto const& cmds = td[S[i]];
   auto it = cmds.lower_bound(j);
 
   if (it == cmds.end()) return i;
