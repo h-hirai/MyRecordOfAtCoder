@@ -90,36 +90,27 @@ impl UnionFind {
     }
 }
 
-type Graph = (Vec<Vec<usize>>, Vec<(usize, usize)>);
-use std::collections::HashSet;
+fn solv(nodes: Vec<Vec<usize>>, mut uf: UnionFind) -> bool {
+    let mut deg4nodes = Vec::new();
 
-fn solv((nodes, edges): Graph) -> bool {
-    let mut uf = UnionFind::new(edges.len());
-    let mut deg4nodes = HashSet::new();
+    for i in 0..nodes.len() {
+        let ref n = nodes[i];
 
-    for i in 0..edges.len() {
-        let (a, b) = edges[i];
-        if nodes[a].len() % 2 == 1 { return false; }
-        if nodes[b].len() % 2 == 1 { return false; }
-        if nodes[a].len() > 4 { return true; }
-        if nodes[b].len() > 4 { return true; }
-
-        if nodes[a].len() > 2 {
-            deg4nodes.insert(a);
+        if n.len() % 2 == 1 {
+            return false;
+        } else if n.len() >= 6 {
+            return false;
+        } else if n.len() == 4 {
+            deg4nodes.push(i);
         } else {
-            uf.unite(nodes[a][0], nodes[a][1]);
-        }
-        if nodes[b].len() > 2 {
-            deg4nodes.insert(b);
-        } else {
-            uf.unite(nodes[b][0], nodes[b][1]);
+            uf.unite(n[0], n[1]);
         }
     }
 
     if deg4nodes.len() > 2 { return true; }
     if deg4nodes.len() < 2 { return false; }
 
-    let &n = deg4nodes.iter().nth(0).unwrap();
+    let n = deg4nodes[0];
 
     return
         uf.same(nodes[n][0], nodes[n][1]) ||
@@ -145,7 +136,7 @@ fn main() {
         nodes[b].push(i);
     }
 
-    if solv((nodes, edges)) {
+    if solv(nodes, UnionFind::new(edges.len())) {
         println!("Yes");
     } else {
         println!("No");
