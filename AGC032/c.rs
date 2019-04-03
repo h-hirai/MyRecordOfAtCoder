@@ -53,6 +53,82 @@ macro_rules! read_value {
     };
 }
 
+struct UnionFind {
+    par: Vec<usize>,
+}
+
+impl UnionFind {
+    fn new(n: usize) -> UnionFind {
+        UnionFind {
+            par: (0..n).collect(),
+        }
+    }
+
+    fn root(&mut self, x: usize) -> usize {
+        let p = self.par[x];
+        if p == x {
+            x
+        } else {
+            let r = self.root(p);
+            self.par[x] = r;
+            r
+        }
+    }
+
+    fn same(&mut self, x: usize, y: usize) -> bool {
+        self.root(x) == self.root(y)
+    }
+
+    fn unite(&mut self, x: usize, y: usize) {
+        let rootx = self.root(x);
+        let rooty = self.root(y);
+        if rootx == rooty {
+            ;
+        } else {
+            self.par[rootx] = rooty;
+        }
+    }
+}
+
+type Graph = (Vec<Vec<usize>>, Vec<(usize, usize)>);
+
+fn solv((nodes, edges): Graph) -> bool {
+    let mut uf = UnionFind::new(edges.len());
+    let mut deg4nodes = Vec::new();
+
+    for i in 0..edges.len() {
+        let (a, b) = edges[i];
+        if nodes[a].len() % 2 == 1 { return false; }
+        if nodes[b].len() % 2 == 1 { return false; }
+        if nodes[a].len() > 4 { return true; }
+        if nodes[b].len() > 4 { return true; }
+
+        if nodes[a].len() > 2 {
+            deg4nodes.push(a);
+        } else {
+            uf.unite(nodes[a][0], nodes[a][1]);
+        }
+        if nodes[b].len() > 2 {
+            deg4nodes.push(b);
+        } else {
+            uf.unite(nodes[b][0], nodes[b][1]);
+        }
+    }
+
+    if deg4nodes.len() > 2 { return true; }
+    if deg4nodes.len() < 2 { return false; }
+
+    let ref n0 = nodes[deg4nodes[0]];
+
+    return
+        uf.same(n0[0], n0[1]) ||
+        uf.same(n0[0], n0[2]) ||
+        uf.same(n0[0], n0[3]) ||
+        uf.same(n0[1], n0[2]) ||
+        uf.same(n0[1], n0[3]) ||
+        uf.same(n0[2], n0[3]);
+}
+
 fn main() {
     input! {
         n: usize,
@@ -60,18 +136,15 @@ fn main() {
         edges: [(usize1, usize1); m],
     }
 
-    let mut degs = vec![0; n];
+    let mut nodes = vec![vec![]; n];
 
-    for (a, b) in edges {
-        degs[a] += 1;
-        degs[b] += 1;
+    for i in 0..edges.len() {
+        let (a, b) = edges[i];
+        nodes[a].push(i);
+        nodes[b].push(i);
     }
 
-    let (all_even, num_joint) =
-        degs.into_iter().fold((true, 0), |(all_even, num_j), d|
-                              (all_even && d % 2 == 0, num_j + d - 2));
-
-    if all_even && num_joint >= 4 {
+    if solv((nodes, edges)) {
         println!("Yes");
     } else {
         println!("No");
