@@ -99,7 +99,7 @@ fn solv(nodes: Vec<Vec<usize>>, mut uf: UnionFind) -> bool {
         if n.len() % 2 == 1 {
             return false;
         } else if n.len() >= 6 {
-            return false;
+            return true;
         } else if n.len() == 4 {
             deg4nodes.push(i);
         } else {
