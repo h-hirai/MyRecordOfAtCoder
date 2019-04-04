@@ -13,9 +13,9 @@ void testcase() {
     std::cin >> R;
 
     if (R == "TOO_SMALL")
-      A = Q;
+      A = Q+1;
     else if (R == "TOO_BIG")
-      B = Q;
+      B = Q-1;
     else
       return;
   }
