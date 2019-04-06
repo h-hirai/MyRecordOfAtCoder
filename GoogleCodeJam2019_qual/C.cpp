@@ -7,15 +7,15 @@ std::string testcase() {
   size_t N, L;
   std::cin >> N >> L;
 
-  std::set<int> code;
+  std::set<size_t> code;
 
-  std::vector<int> decode;
+  std::vector<size_t> decode;
   decode.reserve(L+1);
 
-  int cipher, a, b;
+  size_t cipher, a, b;
   std::cin >> cipher;
 
-  for (int n=2; n*n<=cipher; n++) {
+  for (size_t n=2; n*n<=cipher; n++) {
     if (cipher % n == 0) {
       a = n;
       b = cipher / n;
