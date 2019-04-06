@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <exception>
 
 std::string testcase() {
   size_t N, L;
@@ -23,6 +24,8 @@ std::string testcase() {
     }
   }
 
+  if (a == 0 || b == 0 || a*b != cipher) throw std::runtime_error("");
+
   code.insert(a);
   code.insert(b);
 
@@ -39,6 +42,8 @@ std::string testcase() {
   }
 
   for (size_t i=2; i<L; i++) {
+    if (a == 0) throw std::runtime_error("");
+
     code.insert(a);
     decode.push_back(a);
 
@@ -63,8 +68,14 @@ int main() {
   std::cin >> T;
 
   for (size_t t=1; t<T+1; t++){
-    std::cout << "Case #" << t << ": "
-              << testcase() << std::endl;
+    std::cout << "Case #" << t << ": ";
+    std::string S;
+    try {
+      S = testcase();
+    } catch (std::runtime_error const& e) {
+      S = "RUNTIMEERROR";
+    }
+    std::cout << S << std::endl;
   }
 
   return 0;
