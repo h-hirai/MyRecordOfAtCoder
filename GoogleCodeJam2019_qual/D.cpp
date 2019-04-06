@@ -96,7 +96,6 @@ update(std::string const& S,
         ret_bro.push_back(1);
       else
         ret_bro.push_back(brokens[i]);
-      j+=1;
     }
   }
 
@@ -126,11 +125,10 @@ void testcase() {
     // ofs << std::endl;
   }
 
-  for (size_t i=0; i<brokens.size() && B > 0; i++) {
+  for (size_t i=0; i<brokens.size(); i++) {
     if (brokens[i] == 1) {
       std::cout << ' ' << i;
       // ofs << ' ' << i;
-      B--;
     }
   }
   std::cout << std::endl;
