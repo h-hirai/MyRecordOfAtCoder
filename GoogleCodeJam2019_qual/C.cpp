@@ -37,16 +37,17 @@ std::string testcase() {
     decode.push_back(b);
     a = cipher/b;
   }
-  code.insert(a);
-  decode.push_back(a);
 
   for (size_t i=2; i<L; i++) {
+    code.insert(a);
+    decode.push_back(a);
+
     std::cin >> cipher;
-    b = cipher/a;
-    code.insert(b);
-    decode.push_back(b);
-    a = b;
+    a = cipher/a;
   }
+
+  code.insert(a);
+  decode.push_back(a);
 
   std::string ret;
 
