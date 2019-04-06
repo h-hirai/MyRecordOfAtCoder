@@ -24,7 +24,7 @@ std::string testcase() {
     }
   }
 
-  // if (a == 0 || b == 0 || a*b != cipher) throw std::runtime_error("");
+  if (a == 0 || b == 0 || a*b != cipher) throw std::runtime_error("");
 
   code.insert(a);
   code.insert(b);
@@ -42,7 +42,7 @@ std::string testcase() {
   }
 
   for (size_t i=2; i<L; i++) {
-    if (a == 0) throw std::runtime_error("");
+    // if (a == 0) throw std::runtime_error("");
 
     code.insert(a);
     decode.push_back(a);
