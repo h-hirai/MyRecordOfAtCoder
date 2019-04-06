@@ -24,7 +24,7 @@ std::string testcase() {
     }
   }
 
-  if (a == 0 || b == 0 || a*b != cipher) throw std::runtime_error("");
+  // if (a == 0 || b == 0 || a*b != cipher) throw std::runtime_error("");
 
   code.insert(a);
   code.insert(b);
