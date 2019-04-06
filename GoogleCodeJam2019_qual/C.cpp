@@ -2,62 +2,41 @@
 #include <string>
 #include <vector>
 #include <set>
-#include <exception>
 
 std::string testcase() {
   size_t N, L;
   std::cin >> N >> L;
 
-  std::set<size_t> code;
+  std::vector<size_t> products(L);
+  for (size_t i=0; i<L; i++) std::cin >> products[i];
 
-  std::vector<size_t> decode;
-  decode.reserve(L+1);
+  size_t j=0;
+  for (; products[j]==products[j+1]; j++);
 
-  size_t cipher, a, b;
-  std::cin >> cipher;
+  size_t a = 2;
+  for (; products[j] % a != 0; a++);
+  size_t b = products[j] / a;
 
-  for (size_t n=2; n*n<=cipher; n++) {
-    if (cipher % n == 0) {
-      a = n;
-      b = cipher / n;
-      break;
-    }
+  if (products[j+1] % a == 0) std::swap(a, b);
+
+  std::vector<size_t> factos(L+1);
+
+  for (ssize_t i=j; i>=0; i--) {
+    factos[i] = a;
+    std::swap(a, b);
   }
 
-  if (a == 0 || b == 0 || a*b != cipher) throw std::runtime_error("");
-
-  code.insert(a);
-  code.insert(b);
-
-  std::cin >> cipher;
-
-  if (cipher % a == 0) {
-    decode.push_back(b);
-    decode.push_back(a);
-    a = cipher/a;
-  } else {
-    decode.push_back(a);
-    decode.push_back(b);
-    a = cipher/b;
+  for (size_t i=j+1; i<L+1; i++) {
+    factos[i] = products[i-1] / factos[i-1];
   }
 
-  for (size_t i=2; i<L; i++) {
-    // if (a == 0) throw std::runtime_error("");
-
-    code.insert(a);
-    decode.push_back(a);
-
-    std::cin >> cipher;
-    a = cipher/a;
-  }
-
-  code.insert(a);
-  decode.push_back(a);
+  std::set<size_t> codebook;
+  for (auto f: factos) codebook.insert(f);
 
   std::string ret;
-
-  for (auto const c: decode) {
-    ret.push_back('A'+std::distance(code.begin(), code.find(c)));
+  for (auto f: factos) {
+    auto it = codebook.find(f);
+    ret.push_back('A'+std::distance(codebook.begin(), it));
   }
 
   return ret;
@@ -68,14 +47,8 @@ int main() {
   std::cin >> T;
 
   for (size_t t=1; t<T+1; t++){
-    std::cout << "Case #" << t << ": ";
-    std::string S;
-    try {
-      S = testcase();
-    } catch (std::runtime_error const& e) {
-      S = "RUNTIMEERROR";
-    }
-    std::cout << S << std::endl;
+    std::cout << "Case #" << t << ": "
+              << testcase() << std::endl;
   }
 
   return 0;
