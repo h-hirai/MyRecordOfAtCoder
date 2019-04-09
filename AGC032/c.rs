@@ -90,8 +90,10 @@ impl UnionFind {
     }
 }
 
-fn solv(nodes: Vec<Vec<usize>>, mut uf: UnionFind) -> bool {
+fn solv(nodes: Vec<Vec<usize>>, m: usize) -> bool {
+    let mut uf = UnionFind::new(m);
     let mut deg4nodes = Vec::new();
+    let mut deg6nodes = 0;
 
     for i in 0..nodes.len() {
         let ref n = nodes[i];
@@ -99,7 +101,7 @@ fn solv(nodes: Vec<Vec<usize>>, mut uf: UnionFind) -> bool {
         if n.len() % 2 == 1 {
             return false;
         } else if n.len() >= 6 {
-            return true;
+            deg6nodes += 1;
         } else if n.len() == 4 {
             deg4nodes.push(i);
         } else {
@@ -107,6 +109,7 @@ fn solv(nodes: Vec<Vec<usize>>, mut uf: UnionFind) -> bool {
         }
     }
 
+    if deg6nodes > 0 { return true; }
     if deg4nodes.len() > 2 { return true; }
     if deg4nodes.len() < 2 { return false; }
 
@@ -130,13 +133,13 @@ fn main() {
 
     let mut nodes = vec![vec![]; n];
 
-    for i in 0..edges.len() {
+    for i in 0..m {
         let (a, b) = edges[i];
         nodes[a].push(i);
         nodes[b].push(i);
     }
 
-    if solv(nodes, UnionFind::new(edges.len())) {
+    if solv(nodes, m) {
         println!("Yes");
     } else {
         println!("No");
