@@ -8,12 +8,14 @@ testcase(int R, int C) {
   if (R < 3 && C < 5) return ret;
   if (R < 4 && C < 4) return ret;
 
+  const int K = R < 3 ? 3 : 2;
+
   for (int c=0; c<C; c++) {
     for (int r=0; r<R; r++) {
       if (r % 2 == 0) {
         ret.emplace_back(r, c);
       } else {
-        ret.emplace_back(r, (c + 2) % C);
+        ret.emplace_back(r, (c + K) % C);
       }
     }
   }
