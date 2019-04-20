@@ -1,9 +1,9 @@
 module Main where
 
-import Data.Array.IArray
+import Data.Array.Unboxed
 import Control.Monad (replicateM_)
 
-count :: Int -> String -> Array Int Int
+count :: Int -> String -> UArray Int Int
 count n s = array (1, n) $ zip [1..n] $ count' 0 $ zip s (tail s)
   where
     count' n [] = [n]
