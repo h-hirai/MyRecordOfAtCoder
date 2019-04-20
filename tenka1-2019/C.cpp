@@ -1,33 +1,30 @@
 #include <iostream>
+#include <string>
+#include <vector>
 
 int main() {
   int N;
   std::cin >> N;
 
-  int whites = 0;
-  int blacks = 0;
+  std::string S;
+  std::cin >> S;
 
-  int whites_of_left = 0;
-  int blacks_of_right = 0;
+  std::vector<int> acc_b(N+1);
 
-  for (int i=0; i<N; i++) {
-    char c;
-    std::cin >> c;
+  for (int i=0; i<N; i++)
+    acc_b[i+1]=acc_b[i] + (S[i]=='#' ? 1 : 0);
 
-    if (c == '.') {
-      whites++;
-      if (blacks == 0) whites_of_left++;
+  std::vector<int> acc_w(N+1);
 
-      blacks_of_right = 0;
-    } else {
-      blacks++;
-      blacks_of_right++;
-    }
-  }
+  for (int i=N-1; i>=0; i--)
+    acc_w[i]=acc_w[i+1] + (S[i]=='.' ? 1 : 0);
 
-  int ans = std::min(whites-whites_of_left, blacks-blacks_of_right);
+  int ans = N;
 
-  std::cout << ans << '\n';
+  for (int i=0; i<N+1; i++)
+    ans = std::min(ans, acc_w[i] + acc_b[i]);
+
+  std::cout << ans << std::endl;
 
   return 0;
 }
