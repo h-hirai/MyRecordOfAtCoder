@@ -1,9 +1,10 @@
 module Main where
 
+import Data.Array.IArray
 import Control.Monad (replicateM_)
 
-count :: String -> [Int]
-count s = count' 0 $ zip s $ tail s
+count :: Int -> String -> Array Int Int
+count n s = array (1, n) $ zip [1..n] $ count' 0 $ zip s (tail s)
   where
     count' n [] = [n]
     count' n (('A','C'):rest) = n:count' (n+1) rest
@@ -11,9 +12,9 @@ count s = count' 0 $ zip s $ tail s
 
 main :: IO ()
 main = do
-  [_, q] <- map read . words <$> getLine -- skip n
+  [n, q] <- map read . words <$> getLine
   s <- getLine
-  let acc = count s
+  let acc = count n s
   replicateM_ q $ do
     [l, r] <- map read . words <$> getLine
-    print $ acc!!(r-1) - acc!!(l-1)
+    print $ acc!r - acc!l
