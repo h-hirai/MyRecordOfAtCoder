@@ -16,6 +16,7 @@ int main() {
     if (c == '.') {
       whites++;
       blacks += blacks_of_right;
+      blacks_of_right = 0;
     } else {
       blacks_of_right++;
     }
