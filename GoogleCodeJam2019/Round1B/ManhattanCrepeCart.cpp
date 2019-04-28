@@ -64,6 +64,7 @@ int main() {
   for (int t=1; t<T+1; t++){
     int P, Q;
     std::cin >> P >> Q;
+    Q++;
 
     std::unordered_map<int, int> n_people;
     std::unordered_map<int, int> s_people;
