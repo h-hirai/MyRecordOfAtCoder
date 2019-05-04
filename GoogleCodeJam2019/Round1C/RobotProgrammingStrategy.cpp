@@ -27,15 +27,15 @@ testcase(std::vector<std::string> const& C) {
     } else if ( exist_R &&  exist_S && !exist_P) {
       res.push_back('R');
       for (int j=0; j<C.size(); j++)
-        if (C[j][i%C[j].size()] == 'S') finished[i] = true;
+        if (C[j][i%C[j].size()] == 'S') finished[j] = true;
     } else if ( exist_R && !exist_S &&  exist_P) {
       res.push_back('P');
       for (int j=0; j<C.size(); j++)
-        if (C[j][i%C[j].size()] == 'R') finished[i] = true;
+        if (C[j][i%C[j].size()] == 'R') finished[j] = true;
     } else if (!exist_R &&  exist_S &&  exist_P) {
       res.push_back('S');
       for (int j=0; j<C.size(); j++)
-        if (C[j][i%C[j].size()] == 'P') finished[i] = true;
+        if (C[j][i%C[j].size()] == 'P') finished[j] = true;
     } else if ( exist_R && !exist_S && !exist_P) {
       res.push_back('P');
       return res;
