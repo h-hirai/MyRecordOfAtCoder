@@ -1,5 +1,4 @@
 #include <iostream>
-#include <map>
 
 int main() {
   int R, G, B, N;
