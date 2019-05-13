@@ -4,13 +4,13 @@
 
 A、BのみAC、時間切れ後もC、Dは解説読まずには解けなかった。
 
-[提出一覧](https://beta.atcoder.jp/contests/abc102/submissions/me)
+[提出一覧](https://atcoder.jp/contests/abc102/submissions?f.User=hhirai)
 
 A、Bは書くだけなので省略。
 
 ## C. Linear Approximation
 
-[問題ページ](https://beta.atcoder.jp/contests/abc102/tasks/arc100_a)
+[問題ページ](https://atcoder.jp/contests/abc102/tasks/arc100_a)
 
 適当な定数bを選ぶことで、与えられた数列に対する、与えられた関数の値を最小化する問題。
 
@@ -18,7 +18,7 @@ A、Bは書くだけなので省略。
 
 ## D. Equal Cut
 
-[問題ページ](https://beta.atcoder.jp/contests/abc102/tasks/arc100_b)
+[問題ページ](https://atcoder.jp/contests/abc102/tasks/arc100_b)
 
 与えられた数列を、それぞれの総和がなるべく近くなるよう4つの部分列に分割する問題。
 

@@ -2,19 +2,19 @@
 
 2018-06-16参加。ケアレスミスでBでWA 1回、Dもケアレスミスで時間切れ。初めて4問AC通せてたかもしれない回だった。無念。
 
-[提出一覧](https://beta.atcoder.jp/contests/abc100/submissions/me)
+[提出一覧](https://atcoder.jp/contests/abc100/submissions?f.User=hhirai)
 
 Aは省略。
 
 ## B. Ringo's Favorite Numbers
 
-[問題ページ](https://beta.atcoder.jp/contests/abc100/tasks/abc100_b)
+[問題ページ](https://atcoder.jp/contests/abc100/tasks/abc100_b)
 
 `N×100^D`なんだけど、問題文でも強調されているように「100 で **ちょうど** D 回割りきれる」N番目の数なので、N=100のときだけ`(N+1)×100^D`としなければいけない。まんまとひっかかった。
 
 ## C. *3 or /2
 
-[問題ページ](https://beta.atcoder.jp/contests/abc100/tasks/abc100_c)
+[問題ページ](https://atcoder.jp/contests/abc100/tasks/abc100_c)
 
 与えられた数列に、決められた操作を行う。操作が行えなくなるまでの最大の回数を求める。
 
@@ -22,7 +22,7 @@ Aは省略。
 
 ## D. Patisserie ABC
 
-[問題ページ](https://beta.atcoder.jp/contests/abc100/tasks/abc100_d)
+[問題ページ](https://atcoder.jp/contests/abc100/tasks/abc100_d)
 
 各要素は3種の値`(x,y,z)`を持ち、それぞれは符号付きの値である。N個の要素からM個の要素を選ぶとき、xの合計の絶対値、yの合計の絶対値、zの合計の絶対値の和が最大になるように選んだときの、その値を求める問題。
 

@@ -4,19 +4,19 @@
 
 C、D は自力で解答できなかった。D はまだ WA。
 
-[提出一覧](https://beta.atcoder.jp/contests/abc104/submissions/me)
+[提出一覧](https://atcoder.jp/contests/abc104/submissions?f.User=hhirai)
 
 A は省略。
 
 ## B. AcCepted
 
-[問題ページ](https://beta.atcoder.jp/contests/abc104/tasks/abc104_b)
+[問題ページ](https://atcoder.jp/contests/abc104/tasks/abc104_b)
 
 与えられた文字列が条件を満たすか判定する問題。書くだけだが、条件をひとつ実装し忘れてWA一回。
 
 ## C. All Green
 
-[問題ページ](https://beta.atcoder.jp/contests/abc104/tasks/abc104_c)
+[問題ページ](https://atcoder.jp/contests/abc104/tasks/abc104_c)
 
 100、200、……とランクわけされたスコアを最少いくつ獲得すれば合計が目標に達するか、という問題。ただし、ランクごとに獲得できる最大数と、そのランクを全て獲得したときのボーナススコアが設定されているので、高いスコアから順番に取ればいいというだけの話ではない。
 
@@ -28,7 +28,7 @@ A は省略。
 
 ## D. We Love ABC
 
-[問題ページ](https://beta.atcoder.jp/contests/abc104/tasks/abc104_d)
+[問題ページ](https://atcoder.jp/contests/abc104/tasks/abc104_d)
 
 文字列中に、ABC となる部分列 (順序が保たれていれば連続でなくてもよい) がいくつあるかを ABC 数とする。与えられた文字列中 `?` をワイルドカードとして、生成できる文字列の ABC 数の合計を求める問題。答えは `10^9 + 7` を法とする剰余で求める。
 

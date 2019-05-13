@@ -1,6 +1,6 @@
 AtCoder参加記録
 
-[プロフィールページ](https://beta.atcoder.jp/users/hhirai)
+[プロフィールページ](https://atcoder.jp/users/hhirai)
 
 ## [AtCoder Grand Contest 023](AGC023)
 

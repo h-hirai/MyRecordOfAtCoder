@@ -2,9 +2,9 @@
 
 参加(開催)日、コメント
 
-[提出一覧](https://beta.atcoder.jp/contests/abc107/submissions/me)
+[提出一覧](https://atcoder.jp/contests/abc107/submissions?f.User=hhirai)
 
 ## B.
 
-[問題ページ](https://beta.atcoder.jp/contests/abc107/tasks/abc107_b)
+[問題ページ](https://atcoder.jp/contests/abc107/tasks/abc107_b)
 

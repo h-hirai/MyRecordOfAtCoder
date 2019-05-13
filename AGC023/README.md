@@ -2,11 +2,11 @@
 
 2018-04-28参加。1問も解けなかった。
 
-[提出一覧](https://beta.atcoder.jp/contests/agc023/submissions/me)
+[提出一覧](https://atcoder.jp/contests/agc023/submissions?f.User=hhirai)
 
 ## A. Zero-Sum Ranges
 
-[問題ページ](https://beta.atcoder.jp/contests/agc023/tasks/agc023_a)
+[問題ページ](https://atcoder.jp/contests/agc023/tasks/agc023_a)
 
 与えられた数列について、空でない連続する部分列であって、その総和が0になるものの個数を求める。
 

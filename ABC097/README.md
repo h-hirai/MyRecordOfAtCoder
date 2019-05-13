@@ -4,13 +4,13 @@
 
 この回は4問ともRustでも書いてみている。
 
-[提出一覧](https://beta.atcoder.jp/contests/abc097/submissions/me)
+[提出一覧](https://atcoder.jp/contests/abc097/submissions?f.User=hhirai)
 
 A は省略。
 
 ## B. Exponential
 
-[問題ページ](https://beta.atcoder.jp/contests/abc097/tasks/abc097_b)
+[問題ページ](https://atcoder.jp/contests/abc097/tasks/abc097_b)
 
 与えられる正整数X以下で最大のべき乗数を求める。
 
@@ -22,7 +22,7 @@ i∈2,3,...√X となるすべてのiについて、j∈i^2,i^3,...(j≦X)と�
 
 ## C. K-th Substring
 
-[問題ページ](https://beta.atcoder.jp/contests/abc097/tasks/arc097_a)
+[問題ページ](https://atcoder.jp/contests/abc097/tasks/arc097_a)
 
 与えられた文字列sのsubstringを辞書順に並べたときにK番目にくるものはなにになるか。ただし、重複分は数えないものとする。
 
@@ -32,7 +32,7 @@ i∈2,3,...√X となるすべてのiについて、j∈i^2,i^3,...(j≦X)と�
 
 ## D. Equals
 
-[問題ページ](https://beta.atcoder.jp/contests/abc097/tasks/arc097_b)
+[問題ページ](https://atcoder.jp/contests/abc097/tasks/arc097_b)
 
 1からNまでの数を並べ替えた順列pと、入れ替えてもよいインデックスの組が複数与えられる。順列に対し入れ替え操作を繰り返し、なるべく昇順になるよう並べ替える。順列中、位置と数値が一致する数を最大でいくつにできるか。
 

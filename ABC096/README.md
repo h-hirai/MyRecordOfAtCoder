@@ -2,13 +2,13 @@
 
 2018-05-05参加。このときもDは解答できず。
 
-[提出一覧](https://beta.atcoder.jp/contests/abc096/submissions/me)
+[提出一覧](https://atcoder.jp/contests/abc096/submissions?f.User=hhirai)
 
 A、Bは省略。
 
 ## C. Grid Repainting 2
 
-[問題ページ](https://beta.atcoder.jp/contests/abc096/tasks/abc096_c)
+[問題ページ](https://atcoder.jp/contests/abc096/tasks/abc096_c)
 
 1×2の縦または横でしか描画できない筆を用いて、指定の作画ができるか判定せよという問題。
 
@@ -16,7 +16,7 @@ A、Bは省略。
 
 ## D. Five, Five Everywhere
 
-[問題ページ](https://beta.atcoder.jp/contests/abc096/tasks/abc096_d)
+[問題ページ](https://atcoder.jp/contests/abc096/tasks/abc096_d)
 
 条件を満たす長さNの数列を求める。条件は、どの異なる5つの要素を選択してもその合計は合成数となる、すべて互いに相異なる、素数、というもの。
 

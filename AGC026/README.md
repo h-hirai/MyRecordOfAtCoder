@@ -2,11 +2,11 @@
 
 2018-07-14参加。Aしか解けなかったけど、過去2番目の高パフォーマンス。なんか納得いかぬ。
 
-[提出一覧](https://beta.atcoder.jp/contests/agc026/submissions/me)
+[提出一覧](https://atcoder.jp/contests/agc026/submissions?f.User=hhirai)
 
 ## A. Colorful Slimes 2
 
-[問題ページ](https://beta.atcoder.jp/contests/agc026/tasks/agc026_a)
+[問題ページ](https://atcoder.jp/contests/agc026/tasks/agc026_a)
 
 与えられた数列を変更して、同じ数が連続しないようにするには、最小で何回変更すればいいか。
 
@@ -14,7 +14,7 @@
 
 ## B. rng_10s
 
-[問題ページ](https://beta.atcoder.jp/contests/agc026/tasks/agc026_b)
+[問題ページ](https://atcoder.jp/contests/agc026/tasks/agc026_b)
 
 在庫管理問題。初期在庫(A)、販売数/日(B)、仕入れ基準(C)、入荷数(D)が与えられて、在庫切れが起こらないか判定する。
 

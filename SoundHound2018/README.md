@@ -2,13 +2,13 @@
 
 2018-07-07参加、5問中A、BのみAC。Cは終了後、たなこふ先生の解説を見てからAC。D、Eは未着手。
 
-[提出一覧](https://beta.atcoder.jp/contests/soundhound2018-summer-qual/submissions/me)
+[提出一覧](https://atcoder.jp/contests/soundhound2018-summer-qual/submissions?f.User=hhirai)
 
 A、Bは書くだけなので省略。
 
 ## C. Ordinary Beauty
 
-[問題ページ](https://beta.atcoder.jp/contests/soundhound2018-summer-qual/tasks/soundhound2018_summer_qual_c)
+[問題ページ](https://atcoder.jp/contests/soundhound2018-summer-qual/tasks/soundhound2018_summer_qual_c)
 
 各要素が1以上n以下の整数である長さmの数列を考える。全通りの数列の点数を求め、それらの平均(期待値?)を出力する問題。
 

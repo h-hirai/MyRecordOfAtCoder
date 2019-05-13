@@ -2,13 +2,13 @@
 
 2018-08-04参加。Not Rated。なんとかCまでは解けたけど、そこまで。
 
-[提出一覧](https://beta.atcoder.jp/contests/mujin-pc-2018/submissions/me)
+[提出一覧](https://atcoder.jp/contests/mujin-pc-2018/submissions?f.User=hhirai)
 
 A は省略。
 
 ## B. セキュリティ
 
-[問題ページ](https://beta.atcoder.jp/contests/mujin-pc-2018/tasks/mujin_pc_2018_b)
+[問題ページ](https://atcoder.jp/contests/mujin-pc-2018/tasks/mujin_pc_2018_b)
 
 初期値と、1ずつの増減をあらわす`+`、`-`からなる文字列が与えられて、0になる瞬間があるかどうかを問う問題。
 
@@ -16,7 +16,7 @@ A は省略。
 
 ## C. 右折
 
-[問題ページ](https://beta.atcoder.jp/contests/mujin-pc-2018/tasks/mujin_pc_2018_c)
+[問題ページ](https://atcoder.jp/contests/mujin-pc-2018/tasks/mujin_pc_2018_c)
 
 通過可能なグリッドと障害物グリッドからなるの地図が与えられる。
 1以上進み、右に方向転換して、また1以上進む。可能なコースはいくつあるか。

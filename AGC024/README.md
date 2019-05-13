@@ -2,11 +2,11 @@
 
 2018-05-20参加。A, B, C問題AC。これより前のAGCでは1問も解けたことがなかったの対して、いきなりこの出来でレートもいっきに上がった奇跡の回。2017-07-21現在でもこのときパフォーマンス以上を出せていない。
 
-[提出一覧](https://beta.atcoder.jp/contests/agc024/submissions/me)
+[提出一覧](https://atcoder.jp/contests/agc024/submissions?f.User=hhirai)
 
 ## A. Fairness
 
-[問題ページ](https://beta.atcoder.jp/contests/agc024/tasks/agc024_a)
+[問題ページ](https://atcoder.jp/contests/agc024/tasks/agc024_a)
 
 A, B, Cに対してK回操作を繰り返した後でA-Bを求める。
 
@@ -14,7 +14,7 @@ A, B, Cに対してK回操作を繰り返した後でA-Bを求める。
 
 ## B. Backfront
 
-[問題ページ](https://beta.atcoder.jp/contests/agc024/tasks/agc024_b)
+[問題ページ](https://atcoder.jp/contests/agc024/tasks/agc024_b)
 
 選択ソート (のようななにか) に必要な操作回数を求める。
 
@@ -24,7 +24,7 @@ A, B, Cに対してK回操作を繰り返した後でA-Bを求める。
 
 ## C. Sequence Growing Easy
 
-[問題ページ](https://beta.atcoder.jp/contests/agc024/tasks/agc024_c)
+[問題ページ](https://atcoder.jp/contests/agc024/tasks/agc024_c)
 
 与えられた数列を、決められた操作の繰り返しで作成できるかを判定し、可能な場合の最小操作回数を求める。
 

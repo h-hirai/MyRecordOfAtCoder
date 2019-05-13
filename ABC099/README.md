@@ -2,13 +2,13 @@
 
 2018-06-10開催。不参加。昼から飲んでて酔い醒まし〜とかゆって寝過ごした。
 
-[提出一覧](https://beta.atcoder.jp/contests/abc099/submissions/me)
+[提出一覧](https://atcoder.jp/contests/abc099/submissions?f.User=hhirai)
 
 A、Bは省略。
 
 ## C. Strange Bank
 
-[問題ページ](https://beta.atcoder.jp/contests/abc099/tasks/abc099_c)
+[問題ページ](https://atcoder.jp/contests/abc099/tasks/abc099_c)
 
 両替問題。黙って DP で解けとちょくだい先生がついっとしてたのでそのようにした。
 
@@ -16,7 +16,7 @@ A、Bは省略。
 
 ## D. Good Grid
 
-[問題ページ](https://beta.atcoder.jp/contests/abc099/tasks/abc099_d)
+[問題ページ](https://atcoder.jp/contests/abc099/tasks/abc099_d)
 
 与えられた格子模様を、条件を満たすように描き替えるコストを求める問題。
 

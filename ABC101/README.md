@@ -2,13 +2,13 @@
 
 2018-06-23参加。A、B、およびCがAC、CはWAが1回。
 
-[提出一覧](https://beta.atcoder.jp/contests/abc101/submissions/me)
+[提出一覧](https://atcoder.jp/contests/abc101/submissions?f.User=hhirai)
 
 A、Bは書くだけなので省略。
 
 ## C. Minimization
 
-[問題ページ](https://beta.atcoder.jp/contests/abc101/tasks/arc099_a)
+[問題ページ](https://atcoder.jp/contests/abc101/tasks/arc099_a)
 
 与えられた数列に、決められた操作をほどこし目的の数列に変換する。このときの最小の回数を求める問題。
 
@@ -18,7 +18,7 @@ A、Bは書くだけなので省略。
 
 ## D. Snuke Numbers
 
-[問題ページ](https://beta.atcoder.jp/contests/abc101/tasks/arc099_b)
+[問題ページ](https://atcoder.jp/contests/abc101/tasks/arc099_b)
 
 条件によって定められる数列を列挙する問題。
 
