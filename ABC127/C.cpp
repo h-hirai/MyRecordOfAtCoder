@@ -16,7 +16,7 @@ int main() {
     min_r = std::min(min_r, r);
   }
 
-  int ans = min_r - max_l + 1;
+  int ans = std::max(0, min_r - max_l + 1);
 
   std::cout << ans << std::endl;
 
