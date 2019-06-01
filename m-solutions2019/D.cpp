@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <algorithm>
-#include <numeric>
 #include <tuple>
 
 using tree_t = std::vector<std::vector<int>>;
@@ -31,20 +31,30 @@ int main() {
     std::cin >> C[i];
   }
 
-  std::sort(C.begin(), C.end());
+  std::sort(C.begin(), C.end(), std::greater<int>());
 
-  std::vector<int> inds(N);
-
-  std::iota(inds.begin(), inds.end(), 0);
-
-  std::sort(inds.begin(), inds.end(),
-            [&](auto a, auto b) {
-              return tree[a].size() < tree[b].size();
-            });
-
+  int root = std::distance(tree.cbegin(),
+                           std::max_element(tree.cbegin(), tree.cend(),
+                                            [](auto a, auto b) {
+                                              return a.size() < b.size();
+                                            }));
+  std::queue<int> que;
   std::vector<int> ans(N);
 
-  for (int i=0; i<N; i++) ans[inds[i]] = C[i];
+  que.push(root);
+  int i = 0;
+
+  while(! que.empty()) {
+    auto cur = que.front();
+    que.pop();
+
+    ans[cur] = C[i];
+    i++;
+
+    for (auto n: tree[cur]) {
+      if (ans[n] == 0) que.push(n);
+    }
+  }
 
   int score = 0;
 
