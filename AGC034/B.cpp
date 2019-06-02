@@ -1,112 +1,62 @@
 #include <iostream>
 #include <string>
 
-enum state_t {
-  init,
-  a,
-  ab,
-  abc,
-  b,
-  bc
-};
+int count_a(std::string const& S, int i,
+            int ret, int cnt_a, bool flg_abc);
+
+int look_bc(std::string const& S, int i,
+            int ret, int cnt_a, bool flg_abc);
+
+int neutral(std::string const& S, int i,
+            int ret) {
+  if (i < S.size()-1) {
+    if (S[i] == 'A') {
+      return count_a(S, i+1, ret, 1, false);
+    } else {
+      return neutral(S, i+1, ret);
+    }
+  } else {
+    return ret;
+  }
+}
+
+int count_a(std::string const& S, int i,
+            int ret, int cnt_a, bool flg_abc) {
+  if (i < S.size()-1) {
+    if (S[i] == 'A') {
+      return count_a(S, i+1, ret, cnt_a+1, flg_abc);
+    } else if (S[i] == 'B' && S[i+1] == 'C') {
+      if (flg_abc) ret+=1;
+      return look_bc(S, i+2, ret+cnt_a, cnt_a, true);
+    } else {
+      return neutral(S, i+1, ret);
+    }
+  } else {
+    return ret;
+  }
+}
+
+int look_bc(std::string const& S, int i,
+            int ret, int cnt_a, bool flg_abc) {
+  if (i < S.size()-1) {
+    if (S[i] == 'A') {
+      return count_a(S, i+1, ret, 1, true);
+    } else if (S[i] == 'B' && S[i+1] == 'C') {
+      return look_bc(S, i+2, ret+cnt_a, cnt_a, true);
+    } else {
+      return neutral(S, i+1, ret);
+    }
+  } else {
+    return ret;
+  }
+}
 
 int main() {
   std::string S;
 
   std::cin >> S;
 
-  state_t stat = init;
-  int cnt = 0;
-
-  int ans = 0;
-
-  for (auto c: S) {
-    switch (stat) {
-    case init:
-      cnt = 0;
-      switch (c) {
-      case 'A':
-        stat = a; // std::cerr << "I  ->A:" << cnt << '\n';
-        cnt++;
-        break;
-      default:
-        // std::cerr << "I  ->I:" << cnt << '\n';
-        break;
-      }
-      break;
-    case a:
-      switch (c) {
-      case 'A':
-        stat = a; // std::cerr << "A  ->A:" << cnt << '\n';
-        cnt++;
-        break;
-      case 'B':
-        stat = ab; // std::cerr << "A  ->AB:" << cnt << '\n';
-        break;
-      case 'C':
-        stat = init; // std::cerr << "A  ->I:" << cnt << '\n';
-      }
-      break;
-      break;
-    case ab:
-      switch (c) {
-      case 'A':
-        stat = a; // std::cerr << "AB ->A:" << cnt << '\n';
-        cnt = 1;
-        break;
-      case 'B':
-        stat = init; // std::cerr << "AB ->I:" << cnt << '\n';
-        break;
-      case 'C':
-        stat = abc; // std::cerr << "AB ->ABC:" << cnt << '\n';
-        ans += cnt;
-        break;
-      }
-      break;
-    case abc:
-      switch (c) {
-      case 'A':
-        stat = a; // std::cerr << "ABC->A:" << cnt << '\n';
-        cnt++;
-        break;
-      case 'B':
-        stat = b; // std::cerr << "ABC->B:" << cnt << '\n';
-        break;
-      case 'C':
-        stat = init; // std::cerr << "ABC->I:" << cnt << '\n';
-        break;
-      }
-      break;
-    case b:
-      switch (c) {
-      case 'A':
-        stat = a; // std::cerr << "B  ->A:" << cnt << '\n';
-        break;
-      case 'B':
-        stat = init; // std::cerr << "B  ->I:" << cnt << '\n';
-        break;
-      case 'C':
-        stat = bc; // std::cerr << "B  ->BC:" << cnt << '\n';
-        cnt++;
-        ans++;
-        break;
-      }
-      break;
-    case bc:
-      switch (c) {
-      case 'A':
-        stat = a; // std::cerr << "BC ->A:" << cnt << '\n';
-        break;
-      case 'B':
-        stat = b; // std::cerr << "BC ->B:" << cnt << '\n';
-        break;
-      case 'C':
-        stat = init; // std::cerr << "BC ->I:" << cnt << '\n';
-        break;
-      }
-      break;
-    }
-  }
+  int ans = neutral(S, 0, 0);
 
   std::cout << ans << std::endl;
 
