@@ -1,14 +1,16 @@
 #include <iostream>
 #include <string>
 
-int count_a(std::string const& S, int i,
-            int ret, int cnt_a, bool flg_abc);
+using ll = long long;
 
-int look_bc(std::string const& S, int i,
-            int ret, int cnt_a, bool flg_abc);
+ll count_a(std::string const& S, int i,
+           ll ret, ll cnt_a, bool flg_abc);
 
-int neutral(std::string const& S, int i,
-            int ret) {
+ll look_bc(std::string const& S, int i,
+           ll ret, ll cnt_a, bool flg_abc);
+
+ll neutral(std::string const& S, int i,
+           ll ret) {
   if (i < S.size()-1) {
     if (S[i] == 'A') {
       return count_a(S, i+1, ret, 1, false);
@@ -20,8 +22,8 @@ int neutral(std::string const& S, int i,
   }
 }
 
-int count_a(std::string const& S, int i,
-            int ret, int cnt_a, bool flg_abc) {
+ll count_a(std::string const& S, int i,
+           ll ret, ll cnt_a, bool flg_abc) {
   if (i < S.size()-1) {
     if (S[i] == 'A') {
       return count_a(S, i+1, ret, cnt_a+1, flg_abc);
@@ -36,8 +38,8 @@ int count_a(std::string const& S, int i,
   }
 }
 
-int look_bc(std::string const& S, int i,
-            int ret, int cnt_a, bool flg_abc) {
+ll look_bc(std::string const& S, int i,
+           ll ret, ll cnt_a, bool flg_abc) {
   if (i < S.size()-1) {
     if (S[i] == 'A') {
       return count_a(S, i+1, ret, 1, true);
@@ -56,7 +58,7 @@ int main() {
 
   std::cin >> S;
 
-  int ans = neutral(S, 0, 0);
+  ll ans = neutral(S, 0, 0);
 
   std::cout << ans << std::endl;
 
