@@ -30,7 +30,7 @@ int main() {
   } else {
     // D < C なら A はとちゅうで B を追い抜くスペースがいる
     int avail = 0;
-    for (int i=B+1; i<D; i++) {
+    for (int i=B-1; i<D+2; i++) {
       if (rocks[i]) {
         avail = 0;
       } else {
