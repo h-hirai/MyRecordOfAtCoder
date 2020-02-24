@@ -3,7 +3,13 @@
 
 using INT = long long;
 
-static INT const P = 998244353;
+static INT const P = 1000000007;
+
+template <INT P>
+class Modulo;
+
+template <INT P>
+Modulo<P> power(INT, INT);
 
 template<INT P>
 class Modulo {
@@ -17,20 +23,32 @@ class Modulo {
 
   friend
   Modulo<P>
+  operator+(Modulo<P> const& a, Modulo<P> const& b) {
+    return a.val + b.val;
+  }
+
+  friend
+  Modulo<P>
   operator*(Modulo<P> const& a, Modulo<P> const& b) {
     return a.val * b.val;
+  }
+
+  friend
+  Modulo<P>
+  operator-(Modulo<P> const& a, Modulo<P> const& b) {
+    return P + a.val - b.val;
+  }
+
+  friend
+  Modulo<P>
+  operator/(Modulo<P> const& a, Modulo<P> const& b) {
+    return a * power<P>(b.val, P-2);
   }
 
   static std::vector<INT> _facts;
 
 public:
   Modulo(INT v) : val(v % P) {};
-
-  Modulo<P>& operator+=(Modulo<P> const& other) {
-    val += other.val;
-    val %= P;
-    return *this;
-  }
 
   static INT facts(size_t n) {
     auto s = _facts.size();
@@ -68,13 +86,15 @@ power(INT a, INT b) {
 
 template <INT P>
 Modulo<P>
-comb(INT n, INT k) {
-  if (n<0 || k<0 || n<k) return 0;
-  if (n==0 || k==0) return 1;
+comb(INT n, INT r) {
+  if (n<0 || r<0 || n<r) return 0;
+  if (n==0 || r==0) return 1;
 
-  auto a = Modulo<P>::facts(n);
-  auto b = Modulo<P>::facts(k);
-  auto c = Modulo<P>::facts(n-k);
+  if (n-r<r) r = n-r;
 
-  return a * power<P>(b, P-2) * power<P>(c, P-2);;
+  Modulo<P> a=1;
+  for (INT i=0; i<r; i++) a = a*(n-i);
+  auto b = Modulo<P>::facts(r);
+
+  return a / b;
 }
